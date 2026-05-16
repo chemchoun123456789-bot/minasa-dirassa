@@ -1,0 +1,302 @@
+/* ================================================================
+   📱 MOBILE.CSS — نسخة الهاتف الحصرية
+   ⚠️  جميع القواعد هنا داخل @media (max-width: 768px)
+   ⚠️  لا تأثير مطلق على نسخة الحاسوب
+   ================================================================ */
+
+/* ── إصلاح عام: احترام .hidden على الحاسوب أيضاً (searchBtn) ── */
+#searchBtn.hidden {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  /* ============================================================
+     1. إخفاء شريط التنقل السفلي (sectionNav) في الهاتف
+     ============================================================ */
+  #sectionNav {
+    display: none !important;
+  }
+
+  /* ============================================================
+     2. إخفاء زر وضع التركيز في الهاتف
+     ============================================================ */
+  #focusModeToggle {
+    display: none !important;
+  }
+
+  /* ============================================================
+     3. إخفاء زرَّي النسخة الاحتياطية والاستيراد في الهاتف
+     ============================================================ */
+  #exportDataBtn,
+  #importDataBtn {
+    display: none !important;
+  }
+
+  /* ============================================================
+     4. شريط الأدوات العلوي (topToolbar)
+        - يختفي في صفحة الدخول بالكامل
+        - يظهر فقط بعد تسجيل الدخول
+     ============================================================ */
+  #topToolbar:has(#logoutBtn.hidden) {
+    display: none !important;
+  }
+
+  #topToolbar {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    z-index: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    padding: 10px 16px !important;
+    background: rgba(8, 12, 22, 0.96) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 0 !important;
+  }
+
+  /* تسجيل الخروج: احترام .hidden */
+  #logoutBtn.hidden {
+    display: none !important;
+  }
+  #logoutBtn:not(.hidden) {
+    padding: 8px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    font-size: 0 !important;
+    gap: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(244, 63, 94, 0.1) !important;
+    border: 1px solid rgba(244, 63, 94, 0.2) !important;
+    color: var(--red) !important;
+    min-width: unset !important;
+  }
+  #logoutBtn svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+  }
+  #logoutBtn:hover {
+    background: rgba(244, 63, 94, 0.2) !important;
+    transform: none !important;
+  }
+
+  /* البحث: احترام .hidden */
+  #searchBtn.hidden {
+    display: none !important;
+  }
+  #searchBtn:not(.hidden) {
+    padding: 8px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    font-size: 0 !important;
+    gap: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: unset !important;
+  }
+  #searchBtn svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* ============================================================
+     5. شريط الثيمات (themeBar)
+        - لاصق في أقصى اليمين داخل الشريط العلوي
+     ============================================================ */
+  #themeBar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: auto !important;
+    right: 0 !important;
+    left: auto !important;
+    transform: none !important;
+    z-index: 600 !important;
+    height: 60px !important;
+    padding: 0 16px !important;
+    gap: 7px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    align-items: center !important;
+  }
+
+  /* تصغير نقاط الثيمات */
+  #themeBar .theme-dot,
+  #themeBar button[onclick^="applyTheme"] {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+  }
+
+  /* ============================================================
+     6. فقاعات التتبع (sectionDots) - شريط أفقي في الأسفل
+     ============================================================ */
+  #sectionDots {
+    position: fixed !important;
+    bottom: 16px !important;
+    right: auto !important;
+    top: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    z-index: 400 !important;
+    background: rgba(8, 12, 22, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 999px !important;
+    padding: 8px 14px !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+    pointer-events: all !important;
+  }
+
+  #sectionDots .sdot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    pointer-events: all !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  }
+  #sectionDots .sdot.active {
+    width: 20px !important;
+    height: 6px !important;
+    border-radius: 3px !important;
+    background: var(--blue) !important;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6) !important;
+  }
+
+  /* ============================================================
+     7. أسهم التنقل — مخفية في الهاتف
+     ============================================================ */
+  #arrowNav {
+    display: none !important;
+  }
+
+  /* ============================================================
+     8. المحتوى الرئيسي
+     ============================================================ */
+  main {
+    padding-top: 74px !important;
+    padding-bottom: 140px !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* ============================================================
+     9. زر الدليل العائم — يظهر تحت شريط الثيمات على اليمين
+     ============================================================ */
+  #guideFloatBtn {
+    position: fixed !important;
+    top: 68px !important;
+    right: 12px !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: 599 !important;
+  }
+
+  /* ============================================================
+     10. تحسينات عامة
+     ============================================================ */
+  .card {
+    border-radius: 16px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .sec-title {
+    font-size: 17px !important;
+    margin-bottom: 18px !important;
+  }
+
+  #mainGrid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .schedule-table-wrap,
+  .table-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 12px !important;
+  }
+
+  #dashHeader {
+    border-radius: 14px !important;
+    padding: 14px 16px !important;
+  }
+  #dashHeader .dh-right {
+    gap: 12px !important;
+  }
+
+  #searchOverlay {
+    padding-top: 60px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  #searchBox {
+    border-radius: 16px !important;
+    padding: 16px !important;
+  }
+
+  #searchShortcut {
+    display: none !important;
+  }
+
+  #pomoTimer {
+    font-size: clamp(4rem, 18vw, 6rem) !important;
+  }
+
+  .todo-item {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+
+  #notesGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #examCards {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sound-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 18px !important;
+  }
+
+  @media (hover: none) {
+    .todo-item .del-btn,
+    .note-card .del-btn {
+      opacity: 1 !important;
+    }
+    .btn:hover {
+      transform: none !important;
+    }
+    .card:hover {
+      transform: none !important;
+    }
+  }
+} /* end @media (max-width: 768px) */
