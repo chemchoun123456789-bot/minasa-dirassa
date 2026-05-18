@@ -205,7 +205,7 @@ async function handleGoogleSignIn() {
     const { error } = await _supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: window.location.href.split("?")[0].split("#")[0],
+        redirectTo: "https://minassa-dirasa.vercel.app",
         queryParams: { access_type: "offline", prompt: "select_account" },
       },
     });
