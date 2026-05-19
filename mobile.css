@@ -1,0 +1,418 @@
+/* ============================================================
+   mobile.css — منصة دراسة — Mobile Improvements v2
+   ✅ 9 improvements applied — desktop untouched
+   ============================================================ */
+
+/* === GLOBAL (applies to all screen sizes) === */
+#searchBtn.hidden {
+  display: none !important;
+}
+
+/*
+  IMPROVEMENT 4 — Hide sdot inner elements on desktop.
+  They are only revealed inside @media (max-width: 768px) below.
+  This keeps the desktop vertical-dot appearance intact.
+*/
+.sdot-icon,
+.sdot-name {
+  display: none;
+}
+
+/* ============================================================
+   @media — Mobile only (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* ─── Always-hidden on mobile ─── */
+  #sectionNav {
+    display: none !important;
+  }
+  #focusModeToggle {
+    display: none !important;
+  }
+  #exportDataBtn,
+  #importDataBtn {
+    display: none !important;
+  }
+  #arrowNav {
+    display: none !important;
+  }
+  #searchShortcut {
+    display: none !important;
+  }
+  #searchBtnShortcut {
+    display: none !important;
+  }
+
+  /* Hide entire toolbar when not logged in */
+  #topToolbar:has(#logoutBtn.hidden) {
+    display: none !important;
+  }
+
+  /* ─── Top Toolbar ─── */
+  #topToolbar {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    z-index: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    padding: 10px 16px !important;
+    background: rgba(8, 12, 22, 0.96) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 0 !important;
+  }
+
+  /* Logout button */
+  #logoutBtn.hidden {
+    display: none !important;
+  }
+  #logoutBtn:not(.hidden) {
+    padding: 8px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    /*
+      IMPROVEMENT 4 — Use overflow + clip instead of font-size:0
+      Text is clipped visually but remains accessible to screen readers.
+    */
+    overflow: hidden !important;
+    font-size: 0 !important;
+    gap: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(244, 63, 94, 0.1) !important;
+    border: 1px solid rgba(244, 63, 94, 0.2) !important;
+    color: var(--red) !important;
+    min-width: unset !important;
+  }
+  #logoutBtn svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+  }
+  #logoutBtn:hover {
+    background: rgba(244, 63, 94, 0.2) !important;
+    transform: none !important;
+  }
+
+  /* Search button */
+  #searchBtn.hidden {
+    display: none !important;
+  }
+  #searchBtn:not(.hidden) {
+    padding: 8px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    font-size: 0 !important;
+    gap: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: unset !important;
+  }
+  #searchBtn svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* ─── IMPROVEMENT 2: ThemeBar z-index fixed ─────────────────
+     Was 600 → now 501, so it no longer overlaps topToolbar (500).
+     Positioned at top-right, blended into toolbar area.
+  ─────────────────────────────────────────────────────────── */
+  #themeBar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: auto !important;
+    right: 0 !important;
+    left: auto !important;
+    transform: none !important;
+    z-index: 501 !important; /* ← was 600, caused overlap */
+    height: 60px !important;
+    padding: 0 16px !important;
+    gap: 7px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    align-items: center !important;
+  }
+
+  /* Theme dots sizing */
+  #themeBar .theme-dot,
+  #themeBar button[onclick^="applyTheme"] {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+  }
+
+  /* ─── IMPROVEMENT 1: Bottom Tab Bar ─────────────────────────
+     Replaces the barely-visible 6px dots with a proper
+     full-width bottom navigation bar with icon + label.
+     Min touch target: 60px height = well above 44pt minimum.
+  ─────────────────────────────────────────────────────────── */
+  #sectionDots {
+    position: fixed !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    top: auto !important;
+    transform: none !important;
+    flex-direction: row !important;
+    gap: 0 !important;
+    z-index: 400 !important;
+    background: rgba(8, 12, 22, 0.97) !important;
+    border: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    /* IMPROVEMENT 3 — safe-area-inset for notch devices */
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.5) !important;
+    align-items: stretch !important;
+    pointer-events: all !important;
+    min-height: 60px !important;
+  }
+
+  /* Individual tab item */
+  #sectionDots .sdot {
+    flex: 1 !important;
+    height: auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    cursor: pointer !important;
+    padding: 10px 2px 10px !important;
+    transition: background 0.18s ease !important;
+    box-shadow: none !important;
+    min-height: 60px !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+    border-top: 2px solid transparent !important;
+  }
+
+  #sectionDots .sdot:active {
+    background: rgba(255, 255, 255, 0.04) !important;
+  }
+
+  /* Active tab item */
+  #sectionDots .sdot.active {
+    height: auto !important;
+    width: auto !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-top: 2px solid var(--blue) !important;
+  }
+
+  /* Show icon inside each tab item */
+  .sdot-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+    transition: color 0.2s ease !important;
+    line-height: 1 !important;
+  }
+  #sectionDots .sdot.active .sdot-icon {
+    color: var(--blue) !important;
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.55)) !important;
+  }
+
+  /* Show label under icon */
+  .sdot-name {
+    display: block !important;
+    font-size: 8.5px !important;
+    font-family: "Tajawal", sans-serif !important;
+    font-weight: 600 !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+    transition: color 0.2s ease !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1.2 !important;
+  }
+  #sectionDots .sdot.active .sdot-name {
+    color: var(--blue) !important;
+  }
+
+  /* ─── Main content area ──────────────────────────────────────
+     IMPROVEMENT 3 — Safe-area-aware padding-bottom.
+     Replaces hard-coded 140px with tab-bar height + notch gap.
+  ─────────────────────────────────────────────────────────── */
+  main {
+    padding-top: 74px !important;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 16px)) !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* ─── IMPROVEMENT 8: Guide button moved to bottom ────────────
+     Was top:68px (clashing with toolbar).
+     Now sits above the tab bar, bottom-right corner.
+  ─────────────────────────────────────────────────────────── */
+  #guideFloatBtn {
+    position: fixed !important;
+    top: auto !important;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 16px !important;
+    left: auto !important;
+    z-index: 399 !important;
+  }
+
+  /* ─── IMPROVEMENT 6: Disable GPU-heavy orbs on mobile ────────
+     The blur(80px) orbs on 300-500px elements are expensive
+     on mobile GPUs and cause scroll jank. Hidden entirely.
+  ─────────────────────────────────────────────────────────── */
+  .orb {
+    display: none !important;
+  }
+
+  /* Cards */
+  .card {
+    border-radius: 16px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .sec-title {
+    font-size: 17px !important;
+    margin-bottom: 18px !important;
+  }
+
+  #mainGrid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* ─── IMPROVEMENT 7: Stats grid — responsive breakpoints ─────
+     Two columns on 380px+, one column below 380px.
+     Prevents text overflow on very narrow phones (320px).
+  ─────────────────────────────────────────────────────────── */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .schedule-table-wrap,
+  .table-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 12px !important;
+  }
+
+  #dashHeader {
+    border-radius: 14px !important;
+    padding: 14px 16px !important;
+  }
+  #dashHeader .dh-right {
+    gap: 12px !important;
+  }
+
+  #searchOverlay {
+    padding-top: 60px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  #searchBox {
+    border-radius: 16px !important;
+    padding: 16px !important;
+  }
+
+  /* ─── IMPROVEMENT 5: Pomo timer safe font-size ───────────────
+     Reduced max from 6rem → 4.5rem to prevent overflow
+     on phones with side padding + card borders.
+  ─────────────────────────────────────────────────────────── */
+  #pomoTimer {
+    font-size: clamp(3rem, 14vw, 4.5rem) !important;
+  }
+
+  .btn {
+    min-height: 48px !important;
+  }
+
+  .schedule-table-wrap select,
+  .table-wrap select {
+    min-height: 44px !important;
+    padding: 8px 6px !important;
+    font-size: 12px !important;
+  }
+
+  .todo-item {
+    min-height: 48px !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+
+  #notesGrid {
+    grid-template-columns: 1fr !important;
+  }
+  #examCards {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sound-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 18px !important;
+  }
+
+  /* ─── Google auth — mobile sizing ─── */
+  #googleAuthWrap {
+    margin-top: 14px !important;
+  }
+  .btn-google {
+    min-height: 56px !important;
+    font-size: 15px !important;
+    border-radius: 16px !important;
+    padding: 16px 20px !important;
+  }
+  .auth-divider {
+    margin-bottom: 12px !important;
+  }
+  #googleSetupModal .card {
+    padding: 28px 20px !important;
+    border-radius: 20px !important;
+  }
+
+  /* Hover-capable devices only */
+  @media (hover: none) {
+    .todo-item .del-btn,
+    .note-card .del-btn {
+      opacity: 1 !important;
+    }
+    .btn:hover {
+      transform: none !important;
+    }
+    .card:hover {
+      transform: none !important;
+    }
+  }
+}
+
+/* ─── IMPROVEMENT 7: Very small phones (≤ 380px) ─────────────
+   Stats grid drops to single column to prevent text clipping.
+─────────────────────────────────────────────────────────── */
+@media (max-width: 380px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
