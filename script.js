@@ -5,6 +5,45 @@ const SUPABASE_ANON_KEY =
 
 const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const COMMON_PASSWORDS = new Set([
+  "123456",
+  "password",
+  "123456789",
+  "12345678",
+  "12345",
+  "1234567",
+  "1234567890",
+  "qwerty",
+  "abc123",
+  "111111",
+  "123123",
+  "admin",
+  "letmein",
+  "welcome",
+  "monkey",
+  "dragon",
+  "master",
+  "sunshine",
+  "princess",
+  "iloveyou",
+  "trustno1",
+  "football",
+  "shadow",
+  "superman",
+  "michael",
+  "password1",
+  "qwerty123",
+  "passw0rd",
+  "654321",
+]);
+
+function validatePassSecurity(pass) {
+  if (pass.length < 8) return "كلمة المرور يجب أن تكون 8 أحرف على الأقل";
+  if (COMMON_PASSWORDS.has(pass.toLowerCase()))
+    return "كلمة المرور شائعة جداً، اختر كلمة أصعب";
+  return null;
+}
+
 let user = null;
 
 let timerInterval = null;
