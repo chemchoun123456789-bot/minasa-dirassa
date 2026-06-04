@@ -1,0 +1,1830 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy &amp; Terms of Use — Minassa Dirasa</title>
+    <meta
+      name="description"
+      content="Minassa Dirasa privacy policy and terms of use. Learn how we collect, store, and protect your data."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ─── TOKENS ─────────────────────────────────────────────── */
+      :root {
+        --bg: #f9f9f8;
+        --surface: #ffffff;
+        --border: #e3e3e0;
+        --border-mid: #cfcfcb;
+        --text: #111110;
+        --text-muted: #6e6e68;
+        --text-faint: #9e9e96;
+        --accent: #111110;
+        --accent-soft: #f2f2f0;
+
+        --font-head: "Satoshi", sans-serif;
+        --font-body: "Inter Tight", sans-serif;
+
+        --r-sm: 4px;
+        --r-md: 8px;
+        --r-lg: 12px;
+
+        --max-w: 1100px;
+        --sidebar-w: 220px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 15px;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ─── SELECTION ─────────────────────────────────────────── */
+      ::selection {
+        background: var(--text);
+        color: var(--bg);
+      }
+
+      /* ─── SCROLLBAR ─────────────────────────────────────────── */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-mid);
+        border-radius: 99px;
+      }
+
+      /* ─── TOPBAR ─────────────────────────────────────────────── */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(249, 249, 248, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .topbar-inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 0 28px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .topbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      .topbar-logo {
+        width: 28px;
+        height: 28px;
+        background: var(--text);
+        border-radius: var(--r-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .topbar-logo svg {
+        display: block;
+      }
+
+      .topbar-name {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+      }
+
+      .topbar-badge {
+        font-family: var(--font-body);
+        font-size: 11.5px;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: var(--accent-soft);
+        border: 1px solid var(--border);
+        padding: 3px 10px;
+        border-radius: 99px;
+        letter-spacing: 0.01em;
+      }
+
+      .topbar-back {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+
+      .topbar-back:hover {
+        color: var(--text);
+      }
+
+      /* ─── HERO ───────────────────────────────────────────────── */
+      .hero {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 64px 28px 48px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .hero-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .meta-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--text);
+        border-radius: 50%;
+      }
+
+      .meta-label {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .hero h1 {
+        font-family: var(--font-head);
+        font-weight: 900;
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: var(--text);
+        margin-bottom: 16px;
+        max-width: 600px;
+      }
+
+      .hero-sub {
+        font-size: 15px;
+        color: var(--text-muted);
+        max-width: 520px;
+        line-height: 1.65;
+      }
+
+      .hero-dates {
+        display: flex;
+        gap: 24px;
+        margin-top: 28px;
+        flex-wrap: wrap;
+      }
+
+      .hero-date-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .hero-date-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+      }
+
+      .hero-date-value {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text);
+      }
+
+      /* ─── LAYOUT ─────────────────────────────────────────────── */
+      .layout {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 0 28px;
+        display: grid;
+        grid-template-columns: var(--sidebar-w) 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+
+      /* ─── SIDEBAR ────────────────────────────────────────────── */
+      .sidebar {
+        position: sticky;
+        top: 72px;
+        padding: 36px 0;
+      }
+
+      .sidebar-title {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+        padding-left: 2px;
+      }
+
+      .toc-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
+
+      .toc-item a {
+        display: block;
+        padding: 6px 10px;
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--text-muted);
+        text-decoration: none;
+        border-radius: var(--r-sm);
+        border-left: 2px solid transparent;
+        transition:
+          color 0.15s,
+          background 0.15s,
+          border-color 0.15s;
+        line-height: 1.4;
+      }
+
+      .toc-item a:hover {
+        color: var(--text);
+        background: var(--accent-soft);
+      }
+
+      .toc-item.active a {
+        color: var(--text);
+        font-weight: 600;
+        border-left-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .toc-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 10px 0;
+      }
+
+      .toc-section-label {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        padding: 8px 10px 4px;
+      }
+
+      /* ─── CONTENT ────────────────────────────────────────────── */
+      .content {
+        padding: 40px 0 80px;
+        min-width: 0;
+      }
+
+      /* ─── SECTION BLOCK ──────────────────────────────────────── */
+      .section-block {
+        padding: 40px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .section-block:last-child {
+        border-bottom: none;
+      }
+
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+      }
+
+      .section-num {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .section-block h2 {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: clamp(20px, 2.5vw, 24px);
+        letter-spacing: -0.025em;
+        color: var(--text);
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+
+      .section-block h3 {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+        color: var(--text);
+        margin-top: 28px;
+        margin-bottom: 10px;
+      }
+
+      .section-block p {
+        font-size: 14.5px;
+        color: #2e2e2c;
+        line-height: 1.75;
+        margin-bottom: 14px;
+        max-width: 68ch;
+      }
+
+      .section-block p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* ─── DATA TABLE ─────────────────────────────────────────── */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 13.5px;
+      }
+
+      .data-table thead th {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        text-align: left;
+        padding: 8px 14px;
+        border-bottom: 1px solid var(--border-mid);
+        white-space: nowrap;
+      }
+
+      .data-table tbody td {
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+        vertical-align: top;
+        line-height: 1.55;
+      }
+
+      .data-table tbody td:first-child {
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .data-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .data-table tbody tr:hover td {
+        background: var(--accent-soft);
+      }
+
+      /* ─── CALLOUT ────────────────────────────────────────────── */
+      .callout {
+        display: flex;
+        gap: 14px;
+        padding: 16px 18px;
+        border: 1px solid var(--border-mid);
+        border-radius: var(--r-md);
+        background: var(--surface);
+        margin: 20px 0;
+      }
+
+      .callout-icon {
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        color: var(--text);
+      }
+
+      .callout-body {
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: #2e2e2c;
+      }
+
+      .callout-body strong {
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      /* ─── SECURITY BADGES ────────────────────────────────────── */
+      .security-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      .security-card {
+        padding: 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .security-card-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--accent-soft);
+        border: 1px solid var(--border);
+        border-radius: var(--r-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text);
+      }
+
+      .security-card-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .security-card-desc {
+        font-size: 12.5px;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      /* ─── RIGHTS LIST ────────────────────────────────────────── */
+      .rights-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 16px 0;
+      }
+
+      .rights-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14px;
+        color: #2e2e2c;
+        line-height: 1.6;
+      }
+
+      .rights-list li::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        background: var(--text);
+        border-radius: 50%;
+        margin-top: 8px;
+        flex-shrink: 0;
+      }
+
+      /* ─── CONTACT CARD ───────────────────────────────────────── */
+      .contact-card {
+        margin-top: 24px;
+        padding: 24px;
+        background: var(--surface);
+        border: 1px solid var(--border-mid);
+        border-radius: var(--r-lg);
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .contact-icon-wrap {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: var(--text);
+      }
+
+      .contact-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-bottom: 4px;
+      }
+
+      .contact-text {
+        font-size: 14px;
+        color: #2e2e2c;
+        line-height: 1.6;
+      }
+
+      .contact-text a {
+        color: var(--text);
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 1px solid var(--border-mid);
+        padding-bottom: 1px;
+        transition: border-color 0.15s;
+      }
+
+      .contact-text a:hover {
+        border-color: var(--text);
+      }
+
+      /* ─── CHAPTER DIVIDER ────────────────────────────────────── */
+      .chapter-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 48px 0 8px;
+      }
+
+      .chapter-title {
+        font-family: var(--font-head);
+        font-weight: 900;
+        font-size: clamp(18px, 2vw, 22px);
+        letter-spacing: -0.03em;
+        color: var(--text);
+        white-space: nowrap;
+      }
+
+      .chapter-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border-mid);
+      }
+
+      .chapter-badge {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 4px 12px;
+        border-radius: 99px;
+        white-space: nowrap;
+      }
+
+      /* ─── BOTTOM BAR ─────────────────────────────────────────── */
+      .bottom-bar {
+        border-top: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      .bottom-bar-inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 20px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .bottom-brand {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: -0.01em;
+        color: var(--text);
+      }
+
+      .bottom-copy {
+        font-size: 12.5px;
+        color: var(--text-faint);
+      }
+
+      .bottom-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .bottom-links a {
+        font-size: 12.5px;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+
+      .bottom-links a:hover {
+        color: var(--text);
+      }
+
+      /* ─── BACK TO TOP ────────────────────────────────────────── */
+      .back-top {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        width: 40px;
+        height: 40px;
+        background: var(--text);
+        color: var(--bg);
+        border: none;
+        border-radius: var(--r-md);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+        z-index: 99;
+      }
+
+      .back-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .back-top:hover {
+        background: #333;
+      }
+
+      /* ─── MOBILE ─────────────────────────────────────────────── */
+      @media (max-width: 780px) {
+        .layout {
+          grid-template-columns: 1fr;
+          gap: 0;
+          padding: 0 20px;
+        }
+
+        .sidebar {
+          position: static;
+          padding: 24px 0 0;
+          display: none;
+        }
+
+        .hero {
+          padding: 40px 20px 32px;
+        }
+
+        .topbar-inner {
+          padding: 0 20px;
+        }
+
+        .topbar-badge {
+          display: none;
+        }
+
+        .bottom-bar-inner {
+          padding: 16px 20px;
+        }
+
+        .contact-card {
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .security-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .data-table {
+          font-size: 12.5px;
+        }
+        .data-table thead th,
+        .data-table tbody td {
+          padding: 9px 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .security-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-dates {
+          gap: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ─── TOPBAR ─────────────────────────────────────────────── -->
+    <header class="topbar" role="banner">
+      <div class="topbar-inner">
+        <a
+          href="https://minassa-dirasa.vercel.app/"
+          class="topbar-brand"
+          aria-label="Minassa Dirasa home"
+        >
+          <div class="topbar-logo" aria-hidden="true">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect x="1" y="1" width="5" height="5" rx="1" fill="white" />
+              <rect
+                x="8"
+                y="1"
+                width="5"
+                height="5"
+                rx="1"
+                fill="white"
+                opacity="0.6"
+              />
+              <rect
+                x="1"
+                y="8"
+                width="5"
+                height="5"
+                rx="1"
+                fill="white"
+                opacity="0.6"
+              />
+              <rect
+                x="8"
+                y="8"
+                width="5"
+                height="5"
+                rx="1"
+                fill="white"
+                opacity="0.3"
+              />
+            </svg>
+          </div>
+          <span class="topbar-name">Minassa Dirasa</span>
+        </a>
+        <span class="topbar-badge">Legal Documents</span>
+        <a
+          href="https://minassa-dirasa.vercel.app/"
+          class="topbar-back"
+          aria-label="Back to platform"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="8.5 3 3.5 7 8.5 11" />
+          </svg>
+          Back to platform
+        </a>
+      </div>
+    </header>
+
+    <!-- ─── HERO ───────────────────────────────────────────────── -->
+    <div class="hero">
+      <div class="hero-meta">
+        <div class="meta-dot" aria-hidden="true"></div>
+        <span class="meta-label">Legal</span>
+      </div>
+      <h1>Privacy Policy &amp; Terms of Use</h1>
+      <p class="hero-sub">
+        This document governs your use of Minassa Dirasa, a free academic
+        productivity platform built for Algerian students. Please read carefully
+        before using the service.
+      </p>
+      <div class="hero-dates">
+        <div class="hero-date-item">
+          <span class="hero-date-label">Effective Date</span>
+          <span class="hero-date-value">June 1, 2025</span>
+        </div>
+        <div class="hero-date-item">
+          <span class="hero-date-label">Last Revised</span>
+          <span class="hero-date-value">June 4, 2026</span>
+        </div>
+        <div class="hero-date-item">
+          <span class="hero-date-label">Version</span>
+          <span class="hero-date-value">2.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── LAYOUT ─────────────────────────────────────────────── -->
+    <div class="layout">
+      <!-- ─── SIDEBAR ──────────────────────────────────────────── -->
+      <aside class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-title">Contents</div>
+        <ul class="toc-list" id="toc">
+          <li class="toc-section-label">Privacy Policy</li>
+          <li class="toc-item" data-target="overview">
+            <a href="#overview">Overview</a>
+          </li>
+          <li class="toc-item" data-target="data-collected">
+            <a href="#data-collected">Data We Collect</a>
+          </li>
+          <li class="toc-item" data-target="data-use">
+            <a href="#data-use">How We Use Data</a>
+          </li>
+          <li class="toc-item" data-target="data-storage">
+            <a href="#data-storage">Storage &amp; Security</a>
+          </li>
+          <li class="toc-item" data-target="cookies">
+            <a href="#cookies">Cookies</a>
+          </li>
+          <li class="toc-item" data-target="retention">
+            <a href="#retention">Data Retention</a>
+          </li>
+          <li class="toc-item" data-target="rights">
+            <a href="#rights">Your Rights</a>
+          </li>
+          <div class="toc-divider"></div>
+          <li class="toc-section-label">Terms of Use</li>
+          <li class="toc-item" data-target="agreement">
+            <a href="#agreement">Agreement</a>
+          </li>
+          <li class="toc-item" data-target="service">
+            <a href="#service">Service Description</a>
+          </li>
+          <li class="toc-item" data-target="eligibility">
+            <a href="#eligibility">Eligibility</a>
+          </li>
+          <li class="toc-item" data-target="obligations">
+            <a href="#obligations">User Obligations</a>
+          </li>
+          <li class="toc-item" data-target="prohibited">
+            <a href="#prohibited">Prohibited Use</a>
+          </li>
+          <li class="toc-item" data-target="ip">
+            <a href="#ip">Intellectual Property</a>
+          </li>
+          <li class="toc-item" data-target="liability">
+            <a href="#liability">Liability</a>
+          </li>
+          <li class="toc-item" data-target="changes">
+            <a href="#changes">Changes</a>
+          </li>
+          <div class="toc-divider"></div>
+          <li class="toc-item" data-target="contact">
+            <a href="#contact">Contact</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- ─── CONTENT ───────────────────────────────────────────── -->
+      <main class="content" id="main-content">
+        <!-- ═══ PRIVACY POLICY CHAPTER ═══════════════════════════ -->
+        <div class="chapter-header">
+          <span class="chapter-title">Privacy Policy</span>
+          <div class="chapter-line" aria-hidden="true"></div>
+          <span class="chapter-badge">Part I</span>
+        </div>
+
+        <!-- 1. Overview -->
+        <section
+          class="section-block"
+          id="overview"
+          aria-labelledby="h-overview"
+        >
+          <div class="section-label">
+            <span class="section-num">01</span>
+            <span>Overview</span>
+          </div>
+          <h2 id="h-overview">Your Privacy Is Fundamental</h2>
+
+          <div class="callout">
+            <svg
+              class="callout-icon"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M10 2.5L3.5 5.5V10c0 3.5 2.8 6.6 6.5 7.4C13.7 16.6 16.5 13.5 16.5 10V5.5L10 2.5z"
+              />
+            </svg>
+            <div class="callout-body">
+              <strong>All user data is yours.</strong> Minassa Dirasa does not
+              sell, lease, or trade your personal information to third parties
+              under any circumstances. Your academic data exists solely to power
+              your experience on the platform.
+            </div>
+          </div>
+
+          <p>
+            Minassa Dirasa ("the Platform," "we," "our," or "us") is committed
+            to protecting the privacy and security of all users. This Privacy
+            Policy explains what information we collect, why we collect it, how
+            it is stored, and the rights you have over your data.
+          </p>
+          <p>
+            By creating an account and using the Platform, you acknowledge that
+            you have read and understood this Privacy Policy. If you do not
+            agree with any part of this document, you should discontinue use of
+            the service.
+          </p>
+        </section>
+
+        <!-- 2. Data Collected -->
+        <section
+          class="section-block"
+          id="data-collected"
+          aria-labelledby="h-data-collected"
+        >
+          <div class="section-label">
+            <span class="section-num">02</span>
+            <span>Data We Collect</span>
+          </div>
+          <h2 id="h-data-collected">What Information We Hold</h2>
+          <p>
+            We collect only the information strictly necessary to provide and
+            improve the service. No data is collected passively without your
+            knowledge.
+          </p>
+
+          <h3>Account Information</h3>
+          <table class="data-table" aria-label="Account information collected">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Purpose</th>
+                <th>Required</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Full name</td>
+                <td>Personalise the dashboard experience</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>Email address</td>
+                <td>Account authentication via one-time code (OTP)</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>School / institution</td>
+                <td>Contextualise academic tools and scheduling</td>
+                <td>Yes</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Academic Data</h3>
+          <p>
+            All data below is created by you and stored exclusively for your
+            use. It is never read, analysed, or shared without your explicit
+            request.
+          </p>
+          <table class="data-table" aria-label="Academic data stored">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tasks (Todos)</td>
+                <td>
+                  Your personal task list, completion status, and priorities
+                </td>
+              </tr>
+              <tr>
+                <td>Notes</td>
+                <td>Study notes organised by subject</td>
+              </tr>
+              <tr>
+                <td>Schedule</td>
+                <td>Weekly timetable including subjects and time slots</td>
+              </tr>
+              <tr>
+                <td>Exams</td>
+                <td>Upcoming exam entries and dates</td>
+              </tr>
+              <tr>
+                <td>Practical sessions</td>
+                <td>Lab or practical class sessions</td>
+              </tr>
+              <tr>
+                <td>Study log</td>
+                <td>Focus session history generated by the Pomodoro timer</td>
+              </tr>
+              <tr>
+                <td>Grades</td>
+                <td>Subject scores and calculated averages</td>
+              </tr>
+              <tr>
+                <td>Resources</td>
+                <td>Saved study links and reference materials</td>
+              </tr>
+              <tr>
+                <td>Preferences</td>
+                <td>Interface theme and display settings</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Technical Data</h3>
+          <p>
+            When you use the Platform, standard technical logs may be generated
+            by our hosting infrastructure (Supabase and Vercel). These may
+            include IP address, browser type, and timestamps. These logs are
+            used solely for security monitoring and are not linked to your
+            profile data.
+          </p>
+        </section>
+
+        <!-- 3. How We Use Data -->
+        <section
+          class="section-block"
+          id="data-use"
+          aria-labelledby="h-data-use"
+        >
+          <div class="section-label">
+            <span class="section-num">03</span>
+            <span>How We Use Data</span>
+          </div>
+          <h2 id="h-data-use">Purpose of Data Processing</h2>
+          <p>Your data is used for the following purposes only:</p>
+          <ul class="rights-list">
+            <li>To create and maintain your account securely</li>
+            <li>To verify your identity through email OTP authentication</li>
+            <li>
+              To synchronise your academic data across sessions and devices
+            </li>
+            <li>To restore your settings and preferences on each login</li>
+            <li>
+              To detect and prevent fraudulent or abusive account activity
+            </li>
+            <li>
+              To operate, maintain, and improve the technical infrastructure
+            </li>
+          </ul>
+          <p style="margin-top: 16px">
+            We do not use your data for advertising, profiling, marketing, or
+            any commercial purpose. We do not share your data with third
+            parties, advertisers, or analytics providers.
+          </p>
+        </section>
+
+        <!-- 4. Storage & Security -->
+        <section
+          class="section-block"
+          id="data-storage"
+          aria-labelledby="h-data-storage"
+        >
+          <div class="section-label">
+            <span class="section-num">04</span>
+            <span>Storage &amp; Security</span>
+          </div>
+          <h2 id="h-data-storage">How Your Data Is Protected</h2>
+          <p>
+            All user data is stored on Supabase, a SOC 2 Type II compliant cloud
+            database platform. Data is encrypted in transit using TLS 1.2 or
+            higher, and encrypted at rest within the database infrastructure.
+          </p>
+
+          <div class="security-grid">
+            <div class="security-card">
+              <div class="security-card-icon" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="7" width="12" height="8" rx="1.5" />
+                  <path d="M5 7V5a3 3 0 016 0v2" />
+                </svg>
+              </div>
+              <div class="security-card-title">OTP Authentication</div>
+              <div class="security-card-desc">
+                Email verification required at registration. No password stored.
+              </div>
+            </div>
+            <div class="security-card">
+              <div class="security-card-icon" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="8" cy="8" r="6" />
+                  <path d="M8 5v3l2 1.5" />
+                </svg>
+              </div>
+              <div class="security-card-title">Rate Limiting</div>
+              <div class="security-card-desc">
+                Maximum 5 OTP attempts before a 30-second lockout is enforced.
+              </div>
+            </div>
+            <div class="security-card">
+              <div class="security-card-icon" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M13 5H3a1 1 0 00-1 1v7a1 1 0 001 1h10a1 1 0 001-1V6a1 1 0 00-1-1z"
+                  />
+                  <path d="M11 5V4a3 3 0 00-6 0v1" />
+                  <circle
+                    cx="8"
+                    cy="9.5"
+                    r="1.5"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+              </div>
+              <div class="security-card-title">No Session Persistence</div>
+              <div class="security-card-desc">
+                Sessions are not stored in browser cookies by default.
+              </div>
+            </div>
+            <div class="security-card">
+              <div class="security-card-icon" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 8l4 4 8-8" />
+                </svg>
+              </div>
+              <div class="security-card-title">TLS Encryption</div>
+              <div class="security-card-desc">
+                All data transmitted between your browser and our servers is
+                encrypted.
+              </div>
+            </div>
+            <div class="security-card">
+              <div class="security-card-icon" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M4 8h8M8 4l4 4-4 4" />
+                </svg>
+              </div>
+              <div class="security-card-title">Resend Cooldown</div>
+              <div class="security-card-desc">
+                A 5-minute cooldown is enforced between OTP resend requests.
+              </div>
+            </div>
+            <div class="security-card">
+              <div class="security-card-icon" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M8 2v4M8 10v4M2 8h4M10 8h4" />
+                </svg>
+              </div>
+              <div class="security-card-title">Isolated Profiles</div>
+              <div class="security-card-desc">
+                Each user's data is isolated and inaccessible to other users.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Cookies -->
+        <section class="section-block" id="cookies" aria-labelledby="h-cookies">
+          <div class="section-label">
+            <span class="section-num">05</span>
+            <span>Cookies</span>
+          </div>
+          <h2 id="h-cookies">Cookies &amp; Local Storage</h2>
+          <p>
+            The Platform uses a minimal cookie implementation. A consent banner
+            is displayed on your first visit. No tracking or third-party
+            advertising cookies are used.
+          </p>
+          <table class="data-table" aria-label="Cookies and storage used">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>cookie_consent</td>
+                <td>Functional</td>
+                <td>Records whether you have acknowledged the cookie notice</td>
+                <td>1 year</td>
+              </tr>
+              <tr>
+                <td>sb-auth-token</td>
+                <td>Authentication</td>
+                <td>Maintains your authenticated session with Supabase</td>
+                <td>Session</td>
+              </tr>
+              <tr>
+                <td>localStorage (app data)</td>
+                <td>Functional</td>
+                <td>Caches interface preferences for faster load times</td>
+                <td>Persistent</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            You may clear cookies and local storage at any time through your
+            browser settings. Doing so will require you to log in again on your
+            next visit.
+          </p>
+        </section>
+
+        <!-- 6. Retention -->
+        <section
+          class="section-block"
+          id="retention"
+          aria-labelledby="h-retention"
+        >
+          <div class="section-label">
+            <span class="section-num">06</span>
+            <span>Data Retention</span>
+          </div>
+          <h2 id="h-retention">How Long We Keep Your Data</h2>
+          <p>
+            Your account and all associated academic data are retained for as
+            long as your account remains active. If you request account
+            deletion, all personal data, including your name, email, school, and
+            the full contents of your academic profile, will be permanently
+            deleted within 30 days.
+          </p>
+          <p>
+            Technical infrastructure logs are retained for a maximum of 90 days
+            for security purposes, after which they are automatically purged.
+          </p>
+          <div class="callout">
+            <svg
+              class="callout-icon"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="10" cy="10" r="8" />
+              <line x1="10" y1="6" x2="10" y2="10" />
+              <line x1="10" y1="13" x2="10" y2="14" />
+            </svg>
+            <div class="callout-body">
+              To request permanent deletion of your account and all data,
+              contact us at <strong>contact@minassa-dirasa.vercel.app</strong>.
+              Your request will be processed within 30 days.
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Rights -->
+        <section class="section-block" id="rights" aria-labelledby="h-rights">
+          <div class="section-label">
+            <span class="section-num">07</span>
+            <span>Your Rights</span>
+          </div>
+          <h2 id="h-rights">Your Data Rights</h2>
+          <p>
+            Regardless of your location, we recognise the following rights with
+            respect to your personal data:
+          </p>
+          <ul class="rights-list">
+            <li>
+              <strong>Right of access</strong> — You may request a complete
+              export of all data associated with your account.
+            </li>
+            <li>
+              <strong>Right of rectification</strong> — You may correct
+              inaccurate personal information directly within the application or
+              by contacting us.
+            </li>
+            <li>
+              <strong>Right of erasure</strong> — You may request that your
+              account and all data be permanently deleted.
+            </li>
+            <li>
+              <strong>Right to portability</strong> — You may request your data
+              in a structured, machine-readable format (JSON).
+            </li>
+            <li>
+              <strong>Right to restrict processing</strong> — You may request
+              that we stop processing your data while a dispute is under review.
+            </li>
+            <li>
+              <strong>Right to object</strong> — You may object to any specific
+              use of your data by contacting us directly.
+            </li>
+          </ul>
+          <p style="margin-top: 14px">
+            To exercise any of these rights, send a written request to the
+            contact address listed at the end of this document. We will respond
+            within 30 days.
+          </p>
+        </section>
+
+        <!-- ═══ TERMS OF USE CHAPTER ══════════════════════════════ -->
+        <div class="chapter-header">
+          <span class="chapter-title">Terms of Use</span>
+          <div class="chapter-line" aria-hidden="true"></div>
+          <span class="chapter-badge">Part II</span>
+        </div>
+
+        <!-- 8. Agreement -->
+        <section
+          class="section-block"
+          id="agreement"
+          aria-labelledby="h-agreement"
+        >
+          <div class="section-label">
+            <span class="section-num">08</span>
+            <span>Agreement</span>
+          </div>
+          <h2 id="h-agreement">Acceptance of Terms</h2>
+          <p>
+            These Terms of Use ("Terms") constitute a legally binding agreement
+            between you and Minassa Dirasa. By accessing or using the Platform
+            in any manner, you confirm that you have read, understood, and
+            agreed to be bound by these Terms.
+          </p>
+          <p>
+            If you are accessing the Platform on behalf of an educational
+            institution or organisation, you represent that you have the
+            authority to bind that institution to these Terms.
+          </p>
+        </section>
+
+        <!-- 9. Service -->
+        <section class="section-block" id="service" aria-labelledby="h-service">
+          <div class="section-label">
+            <span class="section-num">09</span>
+            <span>Service Description</span>
+          </div>
+          <h2 id="h-service">What the Platform Provides</h2>
+          <p>
+            Minassa Dirasa is a free, browser-based academic productivity
+            platform designed for students in Algeria and the wider
+            Arabic-speaking world. The Platform provides the following tools,
+            all at no cost:
+          </p>
+          <ul class="rights-list">
+            <li>Weekly class schedule builder with subject management</li>
+            <li>
+              Pomodoro focus timer with session tracking and sound configuration
+            </li>
+            <li>Task and assignment manager with priority tracking</li>
+            <li>Grade tracker with average calculation</li>
+            <li>Structured note-taking organised by subject</li>
+            <li>Exam schedule and countdown tracker</li>
+            <li>Study resource link manager</li>
+          </ul>
+          <p style="margin-top: 14px">
+            The Platform is provided "as is." We reserve the right to modify,
+            suspend, or discontinue any feature at any time without prior
+            notice, though we will make reasonable efforts to inform users of
+            material changes.
+          </p>
+        </section>
+
+        <!-- 10. Eligibility -->
+        <section
+          class="section-block"
+          id="eligibility"
+          aria-labelledby="h-eligibility"
+        >
+          <div class="section-label">
+            <span class="section-num">10</span>
+            <span>Eligibility</span>
+          </div>
+          <h2 id="h-eligibility">Who May Use the Platform</h2>
+          <p>
+            The Platform is open to any individual student. There is no minimum
+            age restriction stated in these Terms; however, users under the age
+            of 16 should have parental or guardian awareness before registering
+            an account, in accordance with applicable data protection
+            principles.
+          </p>
+          <p>
+            By registering, you confirm that the information you provide is
+            accurate and that you will maintain its accuracy throughout your use
+            of the service.
+          </p>
+        </section>
+
+        <!-- 11. Obligations -->
+        <section
+          class="section-block"
+          id="obligations"
+          aria-labelledby="h-obligations"
+        >
+          <div class="section-label">
+            <span class="section-num">11</span>
+            <span>User Obligations</span>
+          </div>
+          <h2 id="h-obligations">What You Agree To</h2>
+          <p>As a user of the Platform, you agree to:</p>
+          <ul class="rights-list">
+            <li>
+              Provide accurate registration information and keep it up to date
+            </li>
+            <li>
+              Maintain the confidentiality of your account and report any
+              unauthorised access promptly
+            </li>
+            <li>Use the Platform only for lawful educational purposes</li>
+            <li>
+              Respect the intellectual property rights of Minassa Dirasa and any
+              third-party content
+            </li>
+            <li>
+              Refrain from any action that could damage, disable, or overload
+              the Platform's infrastructure
+            </li>
+            <li>Not attempt to access data belonging to other users</li>
+          </ul>
+        </section>
+
+        <!-- 12. Prohibited -->
+        <section
+          class="section-block"
+          id="prohibited"
+          aria-labelledby="h-prohibited"
+        >
+          <div class="section-label">
+            <span class="section-num">12</span>
+            <span>Prohibited Use</span>
+          </div>
+          <h2 id="h-prohibited">Activities Not Permitted</h2>
+          <p>The following uses of the Platform are strictly prohibited:</p>
+          <ul class="rights-list">
+            <li>
+              Attempting to circumvent authentication systems, rate limits, or
+              access controls
+            </li>
+            <li>
+              Registering multiple accounts for purposes of abuse or
+              exploitation
+            </li>
+            <li>
+              Using automated scripts, bots, or crawlers to interact with the
+              Platform
+            </li>
+            <li>
+              Uploading, storing, or transmitting any content that is unlawful,
+              harmful, or infringes third-party rights
+            </li>
+            <li>
+              Reverse-engineering, decompiling, or attempting to extract the
+              source code of the Platform
+            </li>
+            <li>
+              Interfering with the security or integrity of the Platform or its
+              underlying infrastructure
+            </li>
+            <li>
+              Using the Platform for commercial purposes without prior written
+              consent
+            </li>
+          </ul>
+          <p style="margin-top: 14px">
+            Violation of these prohibitions may result in immediate account
+            suspension and, where applicable, referral to relevant authorities.
+          </p>
+        </section>
+
+        <!-- 13. IP -->
+        <section class="section-block" id="ip" aria-labelledby="h-ip">
+          <div class="section-label">
+            <span class="section-num">13</span>
+            <span>Intellectual Property</span>
+          </div>
+          <h2 id="h-ip">Ownership of Content</h2>
+          <p>
+            The Platform's interface, code, design, branding, and all associated
+            materials are the intellectual property of Minassa Dirasa and are
+            protected under applicable law. No part of the Platform may be
+            reproduced, distributed, or commercially exploited without express
+            written authorisation.
+          </p>
+          <p>
+            All content you create and store within the Platform, including your
+            notes, schedules, and grades, remains your exclusive property. You
+            grant Minassa Dirasa a limited, non-exclusive licence to store and
+            process that content solely for the purpose of delivering the
+            service to you.
+          </p>
+        </section>
+
+        <!-- 14. Liability -->
+        <section
+          class="section-block"
+          id="liability"
+          aria-labelledby="h-liability"
+        >
+          <div class="section-label">
+            <span class="section-num">14</span>
+            <span>Liability</span>
+          </div>
+          <h2 id="h-liability">Limitation of Liability</h2>
+          <p>
+            The Platform is provided free of charge on a best-effort basis. To
+            the maximum extent permitted by applicable law, Minassa Dirasa shall
+            not be liable for any indirect, incidental, consequential, or
+            special damages arising from your use of, or inability to use, the
+            Platform.
+          </p>
+          <p>
+            This includes, without limitation, any loss of academic data,
+            interruption of service, or errors in calculation. You are solely
+            responsible for maintaining independent backups of any academic data
+            you consider critical.
+          </p>
+          <div class="callout">
+            <svg
+              class="callout-icon"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M10 2.5L3.5 5.5V10c0 3.5 2.8 6.6 6.5 7.4C13.7 16.6 16.5 13.5 16.5 10V5.5L10 2.5z"
+              />
+            </svg>
+            <div class="callout-body">
+              <strong>We strongly recommend</strong> periodically exporting or
+              backing up your critical academic data (grades, notes, schedule)
+              using your browser's developer tools or any export feature
+              provided in the Platform.
+            </div>
+          </div>
+        </section>
+
+        <!-- 15. Changes -->
+        <section class="section-block" id="changes" aria-labelledby="h-changes">
+          <div class="section-label">
+            <span class="section-num">15</span>
+            <span>Changes to These Terms</span>
+          </div>
+          <h2 id="h-changes">Updates to This Document</h2>
+          <p>
+            We reserve the right to modify these Terms and the Privacy Policy at
+            any time. When material changes are made, we will update the "Last
+            Revised" date at the top of this page. Continued use of the Platform
+            after any revision constitutes acceptance of the updated Terms.
+          </p>
+          <p>
+            For significant changes, we will make reasonable efforts to notify
+            active users. You are responsible for reviewing this document
+            periodically.
+          </p>
+        </section>
+
+        <!-- ═══ CONTACT ════════════════════════════════════════════ -->
+        <section class="section-block" id="contact" aria-labelledby="h-contact">
+          <div class="section-label">
+            <span class="section-num">16</span>
+            <span>Contact</span>
+          </div>
+          <h2 id="h-contact">Get in Touch</h2>
+          <p>
+            For any question, concern, or request related to this Privacy
+            Policy, your data rights, or these Terms of Use, please contact us
+            directly.
+          </p>
+
+          <div class="contact-card">
+            <div class="contact-icon-wrap" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="4" width="14" height="10" rx="1.5" />
+                <path d="M2 6l7 5 7-5" />
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-text">
+                Send all data, privacy, or legal inquiries to
+                <a href="mailto:contact@minassa-dirasa.vercel.app"
+                  >contact@minassa-dirasa.vercel.app</a
+                >. We aim to respond within 5 business days. For account
+                deletion requests, we guarantee a response within 30 days.
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card" style="margin-top: 12px">
+            <div class="contact-icon-wrap" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="9" cy="9" r="7" />
+                <path d="M9 6v4l2.5 2" />
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Platform</div>
+              <div class="contact-text">
+                Return to the study platform at
+                <a
+                  href="https://minassa-dirasa.vercel.app/"
+                  target="_blank"
+                  rel="noopener"
+                  >minassa-dirasa.vercel.app</a
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- ─── BOTTOM BAR ────────────────────────────────────────── -->
+    <footer class="bottom-bar" role="contentinfo">
+      <div class="bottom-bar-inner">
+        <span class="bottom-brand">Minassa Dirasa</span>
+        <span class="bottom-copy">
+          Version 2.0 &mdash; Revised June 4, 2026
+        </span>
+        <nav class="bottom-links" aria-label="Footer navigation">
+          <a href="https://minassa-dirasa.vercel.app/">Platform</a>
+          <a href="#overview">Privacy</a>
+          <a href="#agreement">Terms</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- ─── BACK TO TOP ───────────────────────────────────────── -->
+    <button class="back-top" id="backTop" aria-label="Back to top">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polyline points="3 10 8 5 13 10" />
+      </svg>
+    </button>
+
+    <script>
+      /* ─── TOC Active State ──────────────────────────────────── */
+      (function () {
+        var tocItems = document.querySelectorAll(".toc-item[data-target]");
+        var sections = [];
+
+        tocItems.forEach(function (item) {
+          var id = item.getAttribute("data-target");
+          var el = document.getElementById(id);
+          if (el) sections.push({ id: id, el: el, item: item });
+        });
+
+        function getActiveSection() {
+          var scrollY = window.scrollY + 80;
+          var active = null;
+
+          for (var i = 0; i < sections.length; i++) {
+            if (
+              sections[i].el.getBoundingClientRect().top + window.scrollY <=
+              scrollY
+            ) {
+              active = sections[i];
+            }
+          }
+          return active;
+        }
+
+        function updateToc() {
+          var active = getActiveSection();
+          tocItems.forEach(function (item) {
+            item.classList.remove("active");
+          });
+          if (active) active.item.classList.add("active");
+        }
+
+        window.addEventListener("scroll", updateToc, { passive: true });
+        updateToc();
+      })();
+
+      /* ─── Back to Top ───────────────────────────────────────── */
+      (function () {
+        var btn = document.getElementById("backTop");
+
+        window.addEventListener(
+          "scroll",
+          function () {
+            if (window.scrollY > 400) {
+              btn.classList.add("visible");
+            } else {
+              btn.classList.remove("visible");
+            }
+          },
+          { passive: true },
+        );
+
+        btn.addEventListener("click", function () {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      })();
+    </script>
+  </body>
+</html>
