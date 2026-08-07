@@ -7,8 +7,7 @@ const _supabase = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY,
   {
-    auth: {
-      persistSession: false,
+    auth:{
       autoRefreshToken: true,
       detectSessionInUrl: true,
     },
