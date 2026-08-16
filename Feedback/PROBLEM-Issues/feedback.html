@@ -1,0 +1,1498 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minassa Dirasa | Feedback</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;900&family=Inter:wght@300;400;500&family=Tajawal:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/icon.jpg" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const { createClient } = supabase;
+      const db = createClient(
+        "https://zlffllggwhvxgevzpmvc.supabase.co",
+        "sb_publishable_hM_Xf0eBAz47rdUYnhTXbA_z8yeLvbV",
+      );
+    </script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --navbar-h: 52px;
+        --panel-w: 38%;
+        --font-display: "Orbitron", sans-serif;
+        --font-body: "Inter", sans-serif;
+        --border: rgba(255, 255, 255, 0.07);
+        --glass-bg: rgba(8, 8, 8, 0.78);
+
+        /* ── Base surfaces (tinted, never pure black/white) ── */
+        --color-bg: #06070a;
+        --color-btn-bg: #eef0f4;
+        --color-btn-text: #14151a;
+
+        /* ── Semantic colors: success ── */
+        --color-success: #4ade80;
+        --color-success-text: #86efac;
+        --color-success-bg: rgba(5, 40, 18, 0.92);
+        --color-success-border: rgba(74, 222, 128, 0.25);
+
+        /* ── Semantic colors: error (also covers the cooldown timer,
+             kept in the same family instead of an unrelated orange) ── */
+        --color-error: #ef4444;
+        --color-error-soft: #fca5a5;
+        --color-error-bg: rgba(42, 10, 12, 0.88);
+        --color-error-border: rgba(239, 68, 68, 0.22);
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: var(--color-bg);
+        overflow: hidden;
+      }
+
+      /* ── 3D scene canvas — right side only, separated from the writing panel ── */
+      #scene3d-canvas {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: var(--panel-w);
+        width: calc(100vw - var(--panel-w));
+        height: 100vh;
+        pointer-events: none;
+      }
+
+      /* ── Cursor glow ── */
+      #spotlight {
+        pointer-events: none;
+        position: fixed;
+        z-index: 100;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.11) 0%,
+          rgba(255, 255, 255, 0.05) 35%,
+          transparent 70%
+        );
+        filter: blur(22px);
+        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        will-change: transform;
+      }
+
+      /* ── Loader ── */
+      .loader-wrap {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-bg);
+        z-index: 999;
+        transition: opacity 0.7s ease;
+      }
+      .loader-wrap.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .loader {
+        width: 38px;
+        height: 38px;
+        border: 2px solid rgba(255, 255, 255, 0.08);
+        border-top-color: rgba(255, 255, 255, 0.45);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── Top Navbar ── */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--navbar-h);
+        z-index: 600;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        background: rgba(4, 4, 4, 0.82);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-display);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(220, 220, 220, 0.85);
+      }
+
+      .navbar-logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+        /* subtle glow matching the blue in the logo */
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.25);
+      }
+
+      .navbar-brand-name {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: rgba(210, 220, 255, 0.88);
+        /* keep Arabic readable without forcing RTL on the whole nav */
+        direction: rtl;
+        unicode-bidi: embed;
+      }
+
+      .navbar-brand-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 8px #4ade80;
+        animation: pulse-dot 2.4s ease-in-out infinite;
+      }
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+          box-shadow: 0 0 8px #4ade80;
+        }
+        50% {
+          opacity: 0.4;
+          box-shadow: 0 0 3px #4ade80;
+        }
+      }
+
+      .navbar-badge {
+        font-family: var(--font-display);
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(150, 150, 150, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+        padding: 3px 8px;
+      }
+
+      /* Thin separator between navbar and left panel */
+      .navbar::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: var(--panel-w);
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.12),
+          transparent
+        );
+      }
+
+      /* ── Left Panel ── */
+      .left-panel {
+        position: fixed;
+        top: var(--navbar-h);
+        left: 0;
+        width: var(--panel-w);
+        bottom: 0;
+        z-index: 400;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 52px 44px 44px;
+        overflow-y: auto;
+        /* Right edge separator */
+        border-right: 1px solid var(--border);
+      }
+
+      /* ── Hero title ── */
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-display);
+        font-size: 0.64rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(160, 160, 160, 0.45);
+        margin-bottom: 20px;
+      }
+
+      .hero-main {
+        font-family: var(--font-display);
+        font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+        font-weight: 900;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+
+        /* fallback: solid color shown if gradient text isn't supported,
+           so the heading is never invisible */
+        color: #c8cdd6;
+        background: linear-gradient(
+          135deg,
+          #5a6070 0%,
+          #b8beca 18%,
+          #ffffff 40%,
+          #c8cdd6 60%,
+          #8d939e 78%,
+          #dde0e6 100%
+        );
+        background-size: 220% 220%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 7s ease infinite;
+        filter: drop-shadow(0 2px 20px rgba(255, 255, 255, 0.05));
+      }
+      /* Windows High Contrast / forced-colors mode: drop the gradient
+         trick entirely and show plain readable text instead */
+      @media (forced-colors: active) {
+        .hero-main,
+        .hero-brand {
+          background: none;
+          -webkit-text-fill-color: currentColor;
+          color: CanvasText;
+        }
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .hero-brand {
+        /* fallback color, same reasoning as .hero-main */
+        color: #d1d5db;
+        /* slightly brighter stop for the brand name */
+        background: linear-gradient(
+          135deg,
+          #d1d5db 0%,
+          #ffffff 45%,
+          #9ca3af 100%
+        );
+        background-size: 220% 220%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 7s ease infinite;
+      }
+
+      .hero-sub {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        font-family: var(--font-body);
+        font-size: 0.8rem;
+        font-weight: 300;
+        line-height: 1.8;
+        color: rgba(175, 180, 190, 0.82);
+        letter-spacing: 0.01em;
+      }
+
+      /* ── Chat section (bottom of left panel) ── */
+      .chat-section {
+        width: 100%;
+      }
+
+      .chat-label {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(130, 135, 145, 0.5);
+        margin-bottom: 12px;
+      }
+
+      .chat-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+        padding: 12px 12px 10px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--glass-bg);
+        backdrop-filter: blur(22px) saturate(160%);
+        -webkit-backdrop-filter: blur(22px) saturate(160%);
+        box-shadow:
+          0 4px 30px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        transition:
+          border-color 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .chat-box:focus-within {
+        border-color: rgba(255, 255, 255, 0.22);
+        box-shadow:
+          0 4px 30px rgba(0, 0, 0, 0.6),
+          0 0 0 3px rgba(255, 255, 255, 0.05),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      .chat-textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        resize: none;
+        color: #e8e8e8;
+        font-family: "Tajawal", var(--font-body);
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.65;
+        max-height: 140px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+      }
+      .chat-textarea::placeholder {
+        color: rgba(120, 125, 135, 0.7);
+      }
+      .chat-textarea::-webkit-scrollbar {
+        width: 3px;
+      }
+      .chat-textarea::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+      }
+
+      .chat-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .chat-hint {
+        font-family: var(--font-body);
+        font-size: 0.68rem;
+        color: rgba(150, 155, 165, 0.75);
+        letter-spacing: 0.01em;
+      }
+
+      .chat-submit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: var(--color-btn-bg);
+        color: var(--color-btn-text);
+        cursor: pointer;
+        flex-shrink: 0;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .chat-submit:hover:not(:disabled):not(.locked) {
+        transform: scale(1.1);
+        box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+      }
+      .chat-submit:active:not(:disabled):not(.locked) {
+        transform: scale(0.95);
+      }
+      .chat-submit:disabled:not(.locked) {
+        background: #1e1e1e;
+        color: #444;
+        border-color: rgba(255, 255, 255, 0.06);
+        cursor: not-allowed;
+      }
+      .chat-submit.loading {
+        background: var(--color-btn-bg);
+        color: var(--color-btn-text);
+      }
+      .chat-submit.locked {
+        background: #1a1a1a;
+        color: #3a3a3a;
+        border-color: rgba(255, 255, 255, 0.04);
+        cursor: not-allowed !important;
+        pointer-events: all;
+        transform: none !important;
+        box-shadow: none !important;
+      }
+      .chat-submit:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.5);
+        outline-offset: 3px;
+      }
+
+      /* ── Cooldown error banner ── */
+      .chat-error {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 10px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: rgba(10, 10, 12, 0.42);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(22px) saturate(160%);
+        -webkit-backdrop-filter: blur(22px) saturate(160%);
+        direction: rtl;
+        opacity: 0;
+        transform: translateY(-5px);
+        pointer-events: none;
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+      .chat-error.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .chat-error-icon {
+        flex-shrink: 0;
+        margin-top: 1px;
+        color: var(--color-error);
+      }
+
+      .chat-error-text {
+        flex: 1;
+        font-family: "Tajawal", var(--font-body);
+        font-size: 0.78rem;
+        font-weight: 400;
+        line-height: 1.65;
+        color: var(--color-error);
+      }
+
+      .chat-error-timer {
+        display: block;
+        margin-top: 5px;
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--color-error-soft);
+        letter-spacing: 0.08em;
+      }
+
+      /* ── Toast (structure shared by success + error states) ── */
+      .toast {
+        position: fixed;
+        top: calc(var(--navbar-h) + 16px);
+        left: 50%;
+        transform: translateX(-50%) translateY(-120px);
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px 12px 20px;
+        border-radius: 12px;
+        backdrop-filter: blur(22px) saturate(160%);
+        -webkit-backdrop-filter: blur(22px) saturate(160%);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        font-family: "Tajawal", var(--font-body);
+        font-size: 0.88rem;
+        font-weight: 400;
+        direction: rtl;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.45s ease;
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      /* success variant */
+      .toast--success {
+        background: rgba(5, 40, 18, 0.4);
+        border: 1px solid var(--color-success-border);
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(74, 222, 128, 0.08);
+        color: var(--color-success-text);
+      }
+      /* error variant */
+      .toast--error {
+        background: rgba(42, 10, 12, 0.4);
+        border: 1px solid var(--color-error-border);
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(239, 68, 68, 0.08);
+        color: var(--color-error-soft);
+      }
+
+      .toast-icon {
+        flex-shrink: 0;
+        display: block;
+      }
+      .toast--success .toast-icon-success {
+        color: var(--color-success);
+      }
+      .toast--error .toast-icon-error {
+        color: var(--color-error);
+      }
+
+      .toast-text {
+        flex: 1;
+      }
+
+      .toast-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: inherit;
+        opacity: 0.6;
+        cursor: pointer;
+        transition:
+          opacity 0.15s ease,
+          background 0.15s ease;
+      }
+      .toast-close:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .toast-close:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        opacity: 1;
+      }
+
+      /* ── Reduced motion ── */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+        #spotlight {
+          display: none;
+        }
+      }
+
+      /* ── Tablet — wider panel, tighter padding, still side-by-side ── */
+      @media (min-width: 768px) and (max-width: 1024px) {
+        :root {
+          --panel-w: 46%;
+        }
+        .left-panel {
+          padding: 44px 32px 36px;
+        }
+      }
+
+      /* ── Mobile — scrollable layout ── */
+      @media (max-width: 767px) {
+        /* allow page to scroll */
+        html,
+        body {
+          height: auto;
+          min-height: 100%;
+          overflow-x: hidden;
+          overflow-y: auto;
+        }
+
+        /* push page content below navbar + 3D scene preview */
+        body {
+          padding-top: calc(var(--navbar-h) + 68vw);
+        }
+
+        /* cursor glow irrelevant on touch */
+        #spotlight {
+          display: none;
+        }
+
+        /* canvas: top section, full width, big fixed height */
+        #scene3d-canvas {
+          left: 0;
+          top: var(--navbar-h);
+          width: 100%;
+          height: 68vw;
+          min-height: 260px;
+          max-height: 460px;
+        }
+
+        /* navbar: slightly smaller */
+        .navbar {
+          padding: 0 18px;
+        }
+        .navbar-badge {
+          display: none;
+        }
+        .navbar-brand-name {
+          font-size: 0.68rem;
+        }
+
+        /* left panel: full width, scrollable block */
+        .left-panel {
+          position: relative;
+          top: auto;
+          left: auto;
+          width: 100%;
+          height: auto;
+          min-height: auto;
+          padding: 36px 22px 52px;
+          border-right: none;
+          border-top: 1px solid var(--border);
+          justify-content: flex-start;
+          gap: 40px;
+          background: rgba(0, 0, 0, 0.97);
+        }
+
+        /* hero text slightly smaller on mobile */
+        .hero-main {
+          font-size: clamp(1.3rem, 6vw, 1.7rem);
+        }
+
+        .hero-sub {
+          font-size: 0.78rem;
+        }
+
+        /* hint text hidden to save space */
+        .chat-hint {
+          display: none;
+        }
+
+        /* chat footer right-aligned */
+        .chat-footer {
+          justify-content: flex-end;
+        }
+
+        /* error banner: slightly smaller text */
+        .chat-error-text {
+          font-size: 0.75rem;
+        }
+        .chat-error-timer {
+          font-size: 0.95rem;
+        }
+
+        /* toast full width on mobile */
+        .toast {
+          left: 16px;
+          right: 16px;
+          width: auto;
+          transform: translateX(0) translateY(-120px);
+          white-space: normal;
+          text-align: right;
+          direction: rtl;
+        }
+        .toast.show {
+          transform: translateX(0) translateY(0);
+        }
+
+        /* loader centered */
+        .loader-wrap {
+          background: var(--color-bg);
+        }
+      }
+
+      /* ── Small phones ── */
+      @media (max-width: 390px) {
+        body {
+          padding-top: calc(var(--navbar-h) + 74vw);
+        }
+        #scene3d-canvas {
+          height: 74vw;
+        }
+        .left-panel {
+          padding: 28px 16px 48px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loader -->
+    <div class="loader-wrap" id="loader">
+      <div class="loader" role="status" aria-label="Loading"></div>
+    </div>
+
+    <!-- Cursor glow -->
+    <div id="spotlight" aria-hidden="true"></div>
+
+    <!-- Top Navbar -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <img src="icon.jpg" class="navbar-logo" alt="Minassa Dirasa Logo" />
+        <span class="navbar-brand-name">منصة دراسة</span>
+        <span class="navbar-brand-dot"></span>
+      </div>
+      <span class="navbar-badge">Feedback Portal</span>
+    </nav>
+
+    <!-- Left Panel -->
+    <main class="left-panel">
+      <!-- Hero title -->
+      <div class="hero-top">
+        <p class="hero-eyebrow">Problem &amp; Request Area</p>
+        <h1 class="hero-main">
+          Report Issues<br />
+          &amp; Shape<br />
+          <span class="hero-brand">Minassa Dirasa</span>
+        </h1>
+        <p class="hero-sub">
+          Submit your bug reports, improvement requests<br />
+          &amp; feedback. Our team reviews every single one<br />
+          and acts on it as fast as possible.
+        </p>
+      </div>
+
+      <!-- Chat input -->
+      <div class="chat-section">
+        <span class="chat-label">Your Message</span>
+        <div class="chat-box" id="chat-box">
+          <textarea
+            id="chat-textarea"
+            class="chat-textarea"
+            placeholder="Describe your issue or request in detail..."
+            rows="1"
+            aria-label="Feedback message"
+          ></textarea>
+          <div class="chat-footer">
+            <span class="chat-hint"
+              >Enter to send &nbsp;·&nbsp; Shift+Enter for new line</span
+            >
+            <button
+              class="chat-submit"
+              id="chat-submit"
+              disabled
+              aria-label="Send message"
+            >
+              <svg
+                id="submit-icon"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="12" y1="19" x2="12" y2="5" />
+                <polyline points="5 12 12 5 19 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cooldown error -->
+        <div class="chat-error" id="chat-error" role="alert" aria-live="polite">
+          <svg
+            class="chat-error-icon"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <div class="chat-error-text">
+            انتظر 10 دقائق قبل إرسال مشكلة جديدة أو ملاحظة أخرى واجهتها في
+            الموقع
+            <span class="chat-error-timer" id="cooldown-timer"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast (success / error, single unified component) -->
+    <div class="toast" id="toast" role="alert" aria-live="polite">
+      <svg
+        class="toast-icon toast-icon-success"
+        id="toast-icon-success"
+        width="17"
+        height="17"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+        />
+      </svg>
+      <svg
+        class="toast-icon toast-icon-error"
+        id="toast-icon-error"
+        width="17"
+        height="17"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        hidden
+      >
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <span class="toast-text" id="toast-text"
+        >شكراً لملاحظتك، سيتم العمل على الإصلاح في أقرب وقت ممكن!</span
+      >
+      <button
+        type="button"
+        class="toast-close"
+        id="toast-close"
+        aria-label="إغلاق الإشعار"
+      >
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- 3D scene canvas -->
+    <canvas id="scene3d-canvas"></canvas>
+
+    <!-- Loader timeout — runs immediately, before Spline even starts downloading -->
+    <script>
+      window._loaderTimeout = setTimeout(function () {
+        var l = document.getElementById("loader");
+        if (l) l.classList.add("hidden");
+      }, 3000);
+    </script>
+
+    <!-- 3D scene (vanilla Three.js port of Scene3D.tsx) -->
+    <script type="module">
+      const canvas = document.getElementById("scene3d-canvas");
+      const loader = document.getElementById("loader");
+      clearTimeout(window._loaderTimeout);
+
+      try {
+        const THREE = await import(
+          "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        );
+
+        const IS_COARSE = window.matchMedia("(pointer: coarse)").matches;
+        const IS_SMALL = window.innerWidth < 768;
+        const LOW_POWER = IS_COARSE || IS_SMALL;
+
+        /* ── renderer / scene / camera ── */
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: !LOW_POWER,
+          powerPreference: "high-performance",
+          stencil: false,
+          depth: true,
+        });
+        renderer.setPixelRatio(LOW_POWER ? 1 : Math.min(window.devicePixelRatio, 1.5));
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 100);
+        camera.position.set(0, 0, 8.6);
+
+        function resize() {
+          const w = canvas.clientWidth;
+          const h = canvas.clientHeight;
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h, false);
+        }
+        window.addEventListener("resize", resize);
+
+        /* ── lights ── */
+        scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.3);
+        dirLight.position.set(4, 6, 5);
+        scene.add(dirLight);
+        const fillLight = new THREE.PointLight(0x9a9a9a, 0.4);
+        fillLight.position.set(-5, -3, -2);
+        scene.add(fillLight);
+
+        /* ── mouse-parallax rig ── */
+        const rig = new THREE.Group();
+        scene.add(rig);
+        let pointerX = 0,
+          pointerY = 0,
+          rigRotY = 0,
+          rigRotX = 0;
+        window.addEventListener("pointermove", (e) => {
+          pointerX = (e.clientX / window.innerWidth) * 2 - 1;
+          pointerY = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        /* ── "Float" helper (mirrors drei's <Float/>) ── */
+        function floatState(speed = 1, rotationIntensity = 1, floatIntensity = 1) {
+          return { speed, rotationIntensity, floatIntensity, offset: Math.random() * 100 };
+        }
+        function applyFloat(group, baseY, t, f) {
+          const p = f.offset + t * f.speed;
+          group.rotation.x = Math.sin(p) * 0.1 * f.rotationIntensity;
+          group.rotation.y = Math.cos(p * 0.5) * 0.1 * f.rotationIntensity;
+          group.rotation.z = Math.sin(p * 0.33) * 0.1 * f.rotationIntensity;
+          group.position.y = baseY + Math.sin(p) * 0.1 * f.floatIntensity;
+        }
+
+        /* ── gem core: dark faceted gem with a smoldering amber-gold ember ── */
+        const gemGroup = new THREE.Group();
+        const coreMat = new THREE.MeshStandardMaterial({
+          color: 0x181410,
+          emissive: 0xc8963e,
+          emissiveIntensity: 0.38,
+          metalness: 0.9,
+          roughness: 0.24,
+          flatShading: true,
+        });
+        const coreMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(0.55, 1), coreMat);
+        gemGroup.add(coreMesh);
+
+        const wireMesh = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(0.55, 1),
+          new THREE.MeshBasicMaterial({ color: 0xe3b869, wireframe: true, transparent: true, opacity: 0.22 }),
+        );
+        wireMesh.scale.setScalar(1.014);
+        gemGroup.add(wireMesh);
+
+        const emberLight = new THREE.PointLight(0xd9a852, 1.1, 5.5, 2);
+        gemGroup.add(emberLight);
+
+        /* ── outer sculpture: wireframe knot + orbit rings ── */
+        const sculptureGroup = new THREE.Group();
+        const knotSegments = LOW_POWER ? [140, 24] : [300, 48];
+        const ringSegments = LOW_POWER ? 120 : 220;
+
+        const knotMesh = new THREE.Mesh(
+          new THREE.TorusKnotGeometry(1.55, 0.2, knotSegments[0], knotSegments[1]),
+          new THREE.MeshStandardMaterial({
+            color: 0xd9d9d9,
+            metalness: 0.85,
+            roughness: 0.28,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.65,
+          }),
+        );
+        sculptureGroup.add(knotMesh);
+
+        const ringA = new THREE.Group();
+        ringA.rotation.set(Math.PI / 2.15, 0.35, 0);
+        ringA.add(
+          new THREE.Mesh(
+            new THREE.TorusGeometry(2.35, 0.016, 12, ringSegments),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.7, roughness: 0.3 }),
+          ),
+        );
+        const studCount = LOW_POWER ? 6 : 10;
+        for (let i = 0; i < studCount; i++) {
+          const a = (i / studCount) * Math.PI * 2;
+          const stud = new THREE.Mesh(
+            new THREE.SphereGeometry(0.045, 12, 12),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.6, roughness: 0.25 }),
+          );
+          stud.position.set(Math.cos(a) * 2.35, Math.sin(a) * 2.35, 0);
+          ringA.add(stud);
+        }
+        sculptureGroup.add(ringA);
+
+        const ringB = new THREE.Group();
+        ringB.rotation.set(Math.PI / 1.75, -0.5, 0);
+        ringB.add(
+          new THREE.Mesh(
+            new THREE.TorusGeometry(2.8, 0.01, 10, ringSegments),
+            new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3 }),
+          ),
+        );
+        const ringBSat = new THREE.Mesh(
+          new THREE.OctahedronGeometry(0.11, 0),
+          new THREE.MeshStandardMaterial({ color: 0xf0f0f0, metalness: 0.8, roughness: 0.25, flatShading: true }),
+        );
+        ringBSat.position.set(2.8, 0, 0);
+        ringB.add(ringBSat);
+        sculptureGroup.add(ringB);
+
+        const ringC = new THREE.Mesh(
+          new THREE.TorusGeometry(3.15, 0.006, 8, ringSegments),
+          new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 }),
+        );
+        ringC.rotation.set(Math.PI / 2.6, 0.9, 0.4);
+        sculptureGroup.add(ringC);
+
+        /* core + sculpture float together */
+        const coreFloatGroup = new THREE.Group();
+        coreFloatGroup.add(gemGroup, sculptureGroup);
+        const coreFloat = floatState(1.2, 0.3, 0.8);
+        rig.add(coreFloatGroup);
+
+        /* ── floating satellites ── */
+        const satellites = [];
+        function addSatellite(position, floatParams, spinSpeed, meshes) {
+          const spinner = new THREE.Group();
+          meshes.forEach((m) => spinner.add(m));
+
+          const floatGroup = new THREE.Group();
+          floatGroup.position.set(position[0], position[1], position[2]);
+          floatGroup.add(spinner);
+          rig.add(floatGroup);
+
+          satellites.push({
+            floatGroup,
+            spinner,
+            baseY: position[1],
+            floatState: floatState(floatParams.speed, floatParams.rotationIntensity, floatParams.floatIntensity),
+            spinSpeed,
+          });
+        }
+
+        const detail = LOW_POWER ? 0 : 1;
+
+        addSatellite([2.9, 1.3, -0.5], { speed: 2, rotationIntensity: 0.6, floatIntensity: 1.6 }, 1.2, [
+          new THREE.Mesh(
+            new THREE.OctahedronGeometry(0.3, detail),
+            new THREE.MeshStandardMaterial({ color: 0xf0f0f0, metalness: 0.75, roughness: 0.3, flatShading: true }),
+          ),
+          (() => {
+            const m = new THREE.Mesh(
+              new THREE.TorusGeometry(0.44, 0.012, 8, 48),
+              new THREE.MeshStandardMaterial({ color: 0xbdbdbd, metalness: 0.8, roughness: 0.3 }),
+            );
+            m.rotation.set(Math.PI / 2, 0, 0);
+            return m;
+          })(),
+        ]);
+
+        addSatellite([-3.1, -1, 0.3], { speed: 1.6, rotationIntensity: 0.8, floatIntensity: 1.4 }, 0.8, [
+          new THREE.Mesh(
+            new THREE.BoxGeometry(0.36, 0.36, 0.36),
+            new THREE.MeshStandardMaterial({ color: 0x8a8a8a, metalness: 0.85, roughness: 0.28 }),
+          ),
+          (() => {
+            const m = new THREE.Mesh(
+              new THREE.BoxGeometry(0.36, 0.36, 0.36),
+              new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.28 }),
+            );
+            m.scale.setScalar(1.25);
+            return m;
+          })(),
+        ]);
+
+        addSatellite([-2.2, 1.9, -1], { speed: 2.4, rotationIntensity: 0.7, floatIntensity: 2 }, 1.5, [
+          new THREE.Mesh(
+            new THREE.DodecahedronGeometry(0.24, 0),
+            new THREE.MeshStandardMaterial({ color: 0xcfcfcf, metalness: 0.65, roughness: 0.35, flatShading: true }),
+          ),
+        ]);
+
+        addSatellite([2.5, -1.8, 0.4], { speed: 1.8, rotationIntensity: 0.5, floatIntensity: 1.2 }, 0.6, [
+          new THREE.Mesh(
+            new THREE.SphereGeometry(0.16, 24, 24),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.5, roughness: 0.2 }),
+          ),
+          (() => {
+            const m = new THREE.Mesh(
+              new THREE.TorusGeometry(0.26, 0.008, 8, 40),
+              new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }),
+            );
+            m.rotation.set(Math.PI / 2.4, 0.4, 0);
+            return m;
+          })(),
+        ]);
+
+        addSatellite([0.4, 2.4, -1.4], { speed: 2.1, rotationIntensity: 0.9, floatIntensity: 1.7 }, 1.1, [
+          new THREE.Mesh(
+            new THREE.IcosahedronGeometry(0.16, 0),
+            new THREE.MeshStandardMaterial({ color: 0xe5e5e5, metalness: 0.7, roughness: 0.3, flatShading: true }),
+          ),
+        ]);
+
+        /* ── starfield: two depth layers, high-contrast sparkling stars ── */
+        function makeStarTexture() {
+          const size = 128;
+          const c = document.createElement("canvas");
+          c.width = size;
+          c.height = size;
+          const ctx = c.getContext("2d");
+          const center = size / 2;
+          const g = ctx.createRadialGradient(center, center, 0, center, center, center);
+          g.addColorStop(0, "rgba(255,255,255,1)");
+          g.addColorStop(0.18, "rgba(255,255,255,1)");
+          g.addColorStop(0.35, "rgba(255,255,255,0.6)");
+          g.addColorStop(0.65, "rgba(255,255,255,0.14)");
+          g.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, size, size);
+          ctx.globalCompositeOperation = "lighter";
+          const beam = (w, h) => {
+            const bg = ctx.createRadialGradient(center, center, 0, center, center, Math.max(w, h) / 2);
+            bg.addColorStop(0, "rgba(255,255,255,1)");
+            bg.addColorStop(1, "rgba(255,255,255,0)");
+            ctx.save();
+            ctx.translate(center, center);
+            ctx.scale(w / size, h / size);
+            ctx.translate(-center, -center);
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, size, size);
+            ctx.restore();
+          };
+          beam(size, size * 0.16);
+          beam(size * 0.16, size);
+          const tex = new THREE.CanvasTexture(c);
+          tex.needsUpdate = true;
+          return tex;
+        }
+
+        const starTexture = makeStarTexture();
+        const starLayersDef = LOW_POWER
+          ? [
+              { count: 90, spread: 14, size: 0.18, opacity: 1, speed: 0.015 },
+              { count: 60, spread: 19, size: 0.1, opacity: 0.75, speed: -0.009 },
+            ]
+          : [
+              { count: 110, spread: 13, size: 0.22, opacity: 1, speed: 0.016 },
+              { count: 70, spread: 19, size: 0.12, opacity: 0.8, speed: -0.01 },
+            ];
+
+        const starLayers = starLayersDef.map((l) => {
+          const positions = new Float32Array(l.count * 3);
+          for (let i = 0; i < l.count; i++) {
+            const r = l.spread * (0.5 + Math.random() * 0.5);
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.8;
+            positions[i * 3 + 2] = r * Math.cos(phi);
+          }
+          const geo = new THREE.BufferGeometry();
+          geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+          const mat = new THREE.PointsMaterial({
+            map: starTexture,
+            size: l.size,
+            color: 0xffffff,
+            transparent: true,
+            opacity: l.opacity,
+            sizeAttenuation: true,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          });
+          const points = new THREE.Points(geo, mat);
+          rig.add(points);
+          return { points, mat, def: l };
+        });
+
+        /* ── render loop ── */
+        const clock = new THREE.Clock();
+
+        function animate() {
+          requestAnimationFrame(animate);
+          const delta = Math.min(clock.getDelta(), 0.1);
+          const t = clock.elapsedTime;
+
+          rigRotY = THREE.MathUtils.lerp(rigRotY, pointerX * 0.45, 0.06);
+          rigRotX = THREE.MathUtils.lerp(rigRotX, -pointerY * 0.3, 0.06);
+          rig.rotation.y = rigRotY;
+          rig.rotation.x = rigRotX;
+
+          coreMesh.rotation.y -= delta * 0.25;
+          coreMesh.scale.setScalar(1 + Math.sin(t * 1.4) * 0.04);
+          coreMat.emissiveIntensity = 0.38 + Math.sin(t * 0.9) * 0.18;
+          emberLight.intensity = 1.1 + Math.sin(t * 0.9) * 0.45;
+
+          knotMesh.rotation.x += delta * 0.1;
+          knotMesh.rotation.y += delta * 0.16;
+          ringA.rotation.z += delta * 0.22;
+          ringB.rotation.z -= delta * 0.16;
+          ringC.rotation.z += delta * 0.1;
+
+          applyFloat(coreFloatGroup, 0, t, coreFloat);
+
+          satellites.forEach((sat) => {
+            sat.spinner.rotation.x += delta * 0.4 * sat.spinSpeed;
+            sat.spinner.rotation.y += delta * 0.55 * sat.spinSpeed;
+            applyFloat(sat.floatGroup, sat.baseY, t, sat.floatState);
+          });
+
+          starLayers.forEach((layer, i) => {
+            layer.points.rotation.y += delta * layer.def.speed;
+            layer.points.rotation.x += delta * layer.def.speed * 0.35;
+            layer.mat.opacity = layer.def.opacity * (0.65 + 0.35 * Math.sin(t * 1.3 + i * 2.4));
+          });
+
+          renderer.render(scene, camera);
+        }
+
+        resize();
+        animate();
+        loader.classList.add("hidden");
+      } catch (e) {
+        console.error("Scene3D failed to load:", e);
+        loader.classList.add("hidden");
+      }
+    </script>
+
+    <!-- Cursor spotlight -->
+    <script>
+      const spotlight = document.getElementById("spotlight");
+      let tx = 0,
+        ty = 0,
+        cx = 0,
+        cy = 0,
+        raf = null;
+      document.addEventListener("mousemove", (e) => {
+        tx = e.clientX;
+        ty = e.clientY;
+        spotlight.style.opacity = "1";
+        if (!raf) raf = requestAnimationFrame(tick);
+      });
+      document.addEventListener("mouseleave", () => {
+        spotlight.style.opacity = "0";
+        cancelAnimationFrame(raf);
+        raf = null;
+      });
+      function tick() {
+        cx += (tx - cx) * 0.1;
+        cy += (ty - cy) * 0.1;
+        spotlight.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+        raf = requestAnimationFrame(tick);
+      }
+    </script>
+
+    <!-- Chat logic + cooldown -->
+    <script>
+      const textarea = document.getElementById("chat-textarea");
+      const submitBtn = document.getElementById("chat-submit");
+      const submitIcon = document.getElementById("submit-icon");
+      const toast = document.getElementById("toast");
+      const toastText = document.getElementById("toast-text");
+      const toastIconSuccess = document.getElementById("toast-icon-success");
+      const toastIconError = document.getElementById("toast-icon-error");
+      const toastClose = document.getElementById("toast-close");
+      const errorBanner = document.getElementById("chat-error");
+      const timerEl = document.getElementById("cooldown-timer");
+
+      const SUCCESS_MESSAGE =
+        "شكراً لملاحظتك، سيتم العمل على الإصلاح في أقرب وقت ممكن!";
+      const ERROR_MESSAGE = "فشل الإرسال، تحقق من اتصالك بالإنترنت";
+
+      const COOLDOWN_MS = 10 * 60 * 1000;
+      const LS_KEY = "feedback_sent_at";
+      let isLoading = false,
+        toastTimer = null,
+        toastHideAt = 0,
+        toastPaused = false;
+
+      const fmt = (ms) => {
+        const s = Math.max(0, Math.ceil(ms / 1000));
+        return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+      };
+
+      function lockUI() {
+        submitBtn.disabled = true;
+        submitBtn.classList.add("locked");
+        submitBtn.classList.remove("loading");
+        textarea.disabled = true;
+        textarea.style.opacity = "0.4";
+        errorBanner.classList.add("show");
+      }
+
+      function unlockUI() {
+        submitBtn.classList.remove("locked");
+        textarea.disabled = false;
+        textarea.style.opacity = "";
+        errorBanner.classList.remove("show");
+        submitBtn.disabled = textarea.value.trim().length === 0;
+        timerEl.textContent = "";
+      }
+
+      function startCountdown(sentAt) {
+        lockUI();
+        (function tick() {
+          const rem = sentAt + COOLDOWN_MS - Date.now();
+          if (rem <= 0) {
+            localStorage.removeItem(LS_KEY);
+            unlockUI();
+            return;
+          }
+          timerEl.textContent = fmt(rem);
+          requestAnimationFrame(tick);
+        })();
+      }
+
+      /* restore on page load */
+      const saved = localStorage.getItem(LS_KEY);
+      if (saved) {
+        const sentAt = parseInt(saved, 10);
+        if (sentAt + COOLDOWN_MS > Date.now()) startCountdown(sentAt);
+        else localStorage.removeItem(LS_KEY);
+      }
+
+      /* textarea auto-resize */
+      textarea.addEventListener("input", () => {
+        textarea.style.height = "auto";
+        textarea.style.height = Math.min(textarea.scrollHeight, 140) + "px";
+        if (!submitBtn.classList.contains("locked"))
+          submitBtn.disabled = !textarea.value.trim().length || isLoading;
+      });
+
+      textarea.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          if (!submitBtn.disabled && !submitBtn.classList.contains("locked"))
+            handleSubmit();
+        }
+      });
+
+      submitBtn.addEventListener("click", () => {
+        if (submitBtn.classList.contains("locked")) return;
+        isLoading ? stopLoading() : handleSubmit();
+      });
+
+      async function handleSubmit() {
+        if (!textarea.value.trim()) return;
+        setLoading(true);
+        try {
+          const { error } = await db
+            .from("messages")
+            .insert({ content: textarea.value.trim() });
+          if (error) throw error;
+          setLoading(false);
+          showToast();
+          textarea.value = "";
+          textarea.style.height = "auto";
+          const now = Date.now();
+          localStorage.setItem(LS_KEY, now);
+          startCountdown(now);
+        } catch (err) {
+          console.error("Failed to send:", err);
+          setLoading(false);
+          showErrorToast();
+        }
+      }
+
+      function scheduleToastHide(ms) {
+        clearTimeout(toastTimer);
+        toastHideAt = Date.now() + ms;
+        toastTimer = setTimeout(hideToast, ms);
+      }
+
+      function hideToast() {
+        toast.classList.remove("show");
+      }
+
+      function pauseToast() {
+        if (!toast.classList.contains("show")) return;
+        toastPaused = true;
+        clearTimeout(toastTimer);
+      }
+
+      function resumeToast() {
+        if (!toastPaused) return;
+        toastPaused = false;
+        const remaining = Math.max(toastHideAt - Date.now(), 800);
+        scheduleToastHide(remaining);
+      }
+
+      toast.addEventListener("mouseenter", pauseToast);
+      toast.addEventListener("mouseleave", resumeToast);
+      toast.addEventListener("focusin", pauseToast);
+      toast.addEventListener("focusout", resumeToast);
+      toastClose.addEventListener("click", () => {
+        clearTimeout(toastTimer);
+        hideToast();
+      });
+
+      function showToastVariant(variant, message) {
+        toast.classList.remove("toast--success", "toast--error");
+        toast.classList.add(`toast--${variant}`);
+        toastIconSuccess.hidden = variant !== "success";
+        toastIconError.hidden = variant !== "error";
+        toastText.textContent = message;
+        toast.classList.add("show");
+        scheduleToastHide(4000);
+      }
+
+      function showErrorToast() {
+        showToastVariant("error", ERROR_MESSAGE);
+      }
+
+      function setLoading(state) {
+        isLoading = state;
+        submitBtn.classList.toggle("loading", state);
+        submitBtn.disabled = false;
+        submitBtn.setAttribute("aria-label", state ? "Stop" : "Send message");
+        submitIcon.innerHTML = state
+          ? `<rect x="5" y="5" width="14" height="14" fill="currentColor" stroke="none"/>`
+          : `<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>`;
+      }
+
+      function stopLoading() {
+        setLoading(false);
+        submitBtn.disabled = !textarea.value.trim().length;
+      }
+
+      function showToast() {
+        showToastVariant("success", SUCCESS_MESSAGE);
+      }
+    </script>
+  </body>
+</html>
