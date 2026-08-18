@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Console — Minassa Dirasa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Tajawal:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0b0b10;
+        --surface: #131319;
+        --ink: #f4f3ef;
+        --muted: #8f8fa3;
+        --rule: #232330;
+        --accent: #ff8a3d;
+        --accent-soft: rgba(255, 138, 61, 0.14);
+        --accent-ink: #1a0f05;
+        --danger: #ef4444;
+        --display: "Space Grotesk", "Segoe UI", sans-serif;
+        --arabic: "Tajawal", "Space Grotesk", sans-serif;
+        --mono: "Space Mono", "Courier New", monospace;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--display);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ──────────────────────────────────────────
+       GATE
+    ────────────────────────────────────────── */
+      #gate {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        z-index: 999;
+        gap: 0;
+      }
+
+      .gate-kicker {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 24px;
+      }
+
+      .gate-logo {
+        font-family: var(--display);
+        font-size: 2.6rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        text-align: center;
+        margin-bottom: 8px;
+        color: var(--ink);
+      }
+
+      .gate-sub {
+        font-family: var(--arabic);
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--muted);
+        margin-bottom: 52px;
+        letter-spacing: 0.02em;
+      }
+
+      .gate-rule {
+        width: 48px;
+        height: 2px;
+        background: var(--accent);
+        margin-bottom: 40px;
+        border-radius: 2px;
+      }
+
+      .gate-input {
+        width: 260px;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        text-align: center;
+        padding: 12px 14px;
+        color: var(--ink);
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .gate-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+      .gate-input::placeholder {
+        color: var(--muted);
+        font-family: var(--mono);
+        letter-spacing: 0.04em;
+      }
+      .gate-input.shake {
+        animation: shake 0.35s ease;
+        border-color: var(--danger);
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-8px);
+        }
+        75% {
+          transform: translateX(8px);
+        }
+      }
+
+      .gate-hint {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: transparent;
+        margin-top: 18px;
+        transition: color 0.3s;
+      }
+      .gate-hint.show {
+        color: var(--danger);
+      }
+
+      /* ──────────────────────────────────────────
+       APP SHELL
+    ────────────────────────────────────────── */
+      #app {
+        display: none;
+        flex-direction: column;
+        min-height: 100vh;
+        background: var(--bg);
+      }
+
+      /* ── Masthead ── */
+      .masthead {
+        position: sticky;
+        top: 0;
+        background: rgba(11, 11, 16, 0.92);
+        backdrop-filter: blur(12px);
+        z-index: 100;
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .masthead-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 48px;
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .masthead-brand {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .masthead-date {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      .btn-exit {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        transition: color 0.18s;
+        padding: 0;
+      }
+      .btn-exit:hover {
+        color: var(--danger);
+      }
+
+      .masthead-title-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 22px 48px 20px;
+      }
+
+      .masthead-title {
+        font-family: var(--display);
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: var(--ink);
+      }
+
+      .masthead-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .stat-chip {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .stat-chip strong {
+        font-size: 0.95rem;
+        vertical-align: middle;
+        color: var(--ink);
+      }
+      #stat-unread {
+        color: var(--accent);
+      }
+
+      .btn-mark {
+        background: var(--accent);
+        color: var(--accent-ink);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 9px 16px;
+        transition:
+          opacity 0.18s,
+          transform 0.15s;
+      }
+      .btn-mark:hover {
+        opacity: 0.85;
+        transform: translateY(-1px);
+      }
+
+      .btn-new {
+        background: none;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 9px 16px;
+        transition:
+          background 0.18s,
+          color 0.18s;
+      }
+      .btn-new:hover {
+        background: var(--accent-soft);
+      }
+
+      /* ── Message List ── */
+      .feed {
+        max-width: 780px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 12px 48px 100px;
+      }
+
+      .msg {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 20px 22px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          transform 0.15s;
+      }
+      .msg:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      .msg.unread {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .msg-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .msg-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex-shrink: 0;
+        box-shadow: 0 0 8px var(--accent);
+        transition: all 0.25s;
+      }
+      .msg-dot.read {
+        background: transparent;
+        border: 1.5px solid var(--muted);
+        box-shadow: none;
+      }
+
+      .msg-status {
+        font-family: var(--mono);
+        font-size: 0.55rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        border-radius: 4px;
+        padding: 3px 9px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        transition: all 0.25s;
+      }
+      .msg-status.read {
+        background: none;
+        border: 1px solid var(--rule);
+        color: var(--muted);
+      }
+
+      .msg-time {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+
+      .msg-del {
+        margin-left: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--muted);
+        padding: 4px 6px;
+        transition: color 0.18s;
+        line-height: 1;
+      }
+      .msg-del:hover {
+        color: var(--danger);
+      }
+
+      .msg-edit-btn {
+        margin-left: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--muted);
+        padding: 4px 6px;
+        transition: color 0.18s;
+        line-height: 1;
+      }
+      .msg-edit-btn:hover {
+        color: var(--accent);
+      }
+
+      .msg-edit-area {
+        width: 100%;
+        font-family: var(--arabic);
+        font-size: 1.05rem;
+        font-weight: 400;
+        line-height: 1.75;
+        color: var(--ink);
+        direction: rtl;
+        text-align: right;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 10px 12px;
+        resize: vertical;
+        min-height: 70px;
+        background: var(--bg);
+      }
+
+      .msg-edit-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        justify-content: flex-end;
+      }
+
+      .msg-edit-save,
+      .msg-edit-cancel {
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        padding: 7px 14px;
+      }
+      .msg-edit-save {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+      .msg-edit-cancel {
+        background: none;
+        color: var(--muted);
+        border: 1px solid var(--rule);
+      }
+
+      /* ── Compose (new message) ── */
+      .compose {
+        max-width: 780px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px 48px 0;
+        display: none;
+      }
+      .compose.show {
+        display: block;
+      }
+      .compose-area {
+        width: 100%;
+        font-family: var(--arabic);
+        font-size: 1.02rem;
+        direction: rtl;
+        text-align: right;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 12px 14px;
+        resize: vertical;
+        min-height: 80px;
+        background: var(--surface);
+        color: var(--ink);
+      }
+      .compose-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        justify-content: flex-end;
+      }
+
+      .msg-body {
+        font-family: var(--arabic);
+        font-size: 1.05rem;
+        font-weight: 400;
+        line-height: 1.8;
+        color: var(--ink);
+        padding-left: 19px;
+        direction: rtl;
+        text-align: right;
+      }
+      .msg.unread .msg-body {
+        font-weight: 500;
+        color: var(--ink);
+      }
+
+      /* ── Empty & Loading ── */
+      .state-center {
+        text-align: center;
+        padding: 80px 40px;
+        color: var(--muted);
+      }
+      .state-center h2 {
+        font-family: var(--display);
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--ink);
+      }
+      .state-center p {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      /* ── New message ping ── */
+      #ping {
+        position: fixed;
+        bottom: 36px;
+        left: 50%;
+        transform: translateX(-50%) translateY(72px);
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 11px 22px;
+        border-radius: 999px;
+        cursor: pointer;
+        opacity: 0;
+        transition:
+          transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.42s;
+        white-space: nowrap;
+        border: none;
+        box-shadow: 0 8px 24px rgba(255, 138, 61, 0.35);
+      }
+      #ping.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      @media (max-width: 640px) {
+        .masthead-top,
+        .masthead-title-row,
+        .feed,
+        .compose {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .masthead-date {
+          display: none;
+        }
+        .masthead-title {
+          font-size: 1.5rem;
+        }
+      }
+    
+    </style>
+  </head>
+  <body>
+    <!-- ── GATE ──────────────────────────────────── -->
+    <div id="gate">
+      <p class="gate-kicker">Minassa Dirasa</p>
+      <h1 class="gate-logo">Admin<br />Console</h1>
+      <p class="gate-sub">منصة دراسة</p>
+      <div class="gate-rule"></div>
+      <input
+        id="gate-email"
+        class="gate-input"
+        type="email"
+        placeholder="email"
+        autocomplete="off"
+        style="margin-bottom: 16px"
+      />
+      <input
+        id="gate-input"
+        class="gate-input"
+        type="password"
+        placeholder="password"
+        autocomplete="off"
+      />
+      <p class="gate-hint" id="gate-hint">Incorrect email or password</p>
+    </div>
+
+    <!-- ── APP ───────────────────────────────────── -->
+    <div id="app">
+      <header class="masthead">
+        <div class="masthead-top">
+          <span class="masthead-brand">Minassa Dirasa</span>
+          <span class="masthead-date" id="today-date"></span>
+          <button class="btn-exit" onclick="logout()">Exit ↗</button>
+        </div>
+        <div class="masthead-title-row">
+          <h1 class="masthead-title">Feedback Console</h1>
+          <div class="masthead-actions">
+            <span class="stat-chip"
+              ><strong id="stat-unread">—</strong> unread</span
+            >
+            <span class="stat-chip"
+              ><strong id="stat-total">—</strong> total</span
+            >
+            <button class="btn-mark" onclick="markAllRead()">
+              Mark all read
+            </button>
+            <button class="btn-new" onclick="toggleCompose()">
+              + New
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="compose" id="compose">
+        <textarea
+          class="compose-area"
+          id="compose-area"
+          placeholder="اكتب رسالة جديدة..."
+        ></textarea>
+        <div class="compose-actions">
+          <button class="msg-edit-cancel" onclick="toggleCompose()">
+            Cancel
+          </button>
+          <button class="msg-edit-save" onclick="addMsg()">Add</button>
+        </div>
+      </div>
+
+      <div class="feed" id="feed">
+        <div class="state-center"><p>Loading…</p></div>
+      </div>
+    </div>
+
+    <!-- ── NEW MESSAGE PING ────── -->
+    <button id="ping" onclick="refreshMessages()">
+      ↑ New message — tap to refresh
+    </button>
+
+    <script>
+      const { createClient } = supabase;
+      const db = createClient(
+        "https://zlffllggwhvxgevzpmvc.supabase.co",
+        "sb_publishable_hM_Xf0eBAz47rdUYnhTXbA_z8yeLvbV",
+      );
+
+      document.getElementById("today-date").textContent =
+        new Date().toLocaleDateString("en-GB", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+
+      const gateEl = document.getElementById("gate");
+      const appEl = document.getElementById("app");
+      const emailEl = document.getElementById("gate-email");
+      const inputEl = document.getElementById("gate-input");
+      const hintEl = document.getElementById("gate-hint");
+
+      inputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") tryLogin();
+        hintEl.classList.remove("show");
+      });
+      emailEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") tryLogin();
+        hintEl.classList.remove("show");
+      });
+
+      async function tryLogin() {
+        const { data, error } = await db.auth.signInWithPassword({
+          email: emailEl.value.trim(),
+          password: inputEl.value,
+        });
+        if (error) {
+          inputEl.value = "";
+          hintEl.classList.add("show");
+          inputEl.classList.remove("shake");
+          void inputEl.offsetWidth;
+          inputEl.classList.add("shake");
+          return;
+        }
+        gateEl.style.display = "none";
+        appEl.style.display = "flex";
+        appEl.style.flexDirection = "column";
+        init();
+      }
+
+      async function logout() {
+        await db.auth.signOut();
+        location.reload();
+      }
+
+      async function checkSession() {
+        const {
+          data: { session },
+        } = await db.auth.getSession();
+        if (session) {
+          gateEl.style.display = "none";
+          appEl.style.display = "flex";
+          appEl.style.flexDirection = "column";
+          init();
+        }
+      }
+      checkSession();
+
+      let msgs = [];
+      let lastCount = 0;
+
+      async function init() {
+        await loadMessages();
+        startPolling();
+      }
+
+      async function loadMessages() {
+        const { data, error } = await db
+          .from("messages")
+          .select("*")
+          .order("created_at", { ascending: false });
+        if (error) {
+          console.error(error);
+          document.getElementById("feed").innerHTML = `
+        <div class="state-center">
+          <h2>خطأ في الاتصال</h2>
+          <p style="margin-top:12px;font-size:.75rem;color:#c00">${error.message}</p>
+          <p style="margin-top:8px">تأكد أنك شغّلت SQL في Supabase</p>
+        </div>`;
+          return;
+        }
+        msgs = data || [];
+        lastCount = msgs.length;
+        render();
+        updateStats();
+      }
+
+      async function refreshMessages() {
+        hidePing();
+        await loadMessages();
+      }
+
+      function render() {
+        const feed = document.getElementById("feed");
+        if (!msgs.length) {
+          feed.innerHTML = `<div class="state-center"><h2>No messages yet.</h2><p>Waiting for feedback</p></div>`;
+          return;
+        }
+        feed.innerHTML = msgs
+          .map(
+            (m) => `
+      <div class="msg ${m.is_read ? "" : "unread"}" data-id="${m.id}" onclick="toggleRead('${m.id}',${m.is_read})">
+        <div class="msg-header">
+          <span class="msg-dot ${m.is_read ? "read" : ""}"></span>
+          <span class="msg-status ${m.is_read ? "read" : ""}">${m.is_read ? "Read" : "New"}</span>
+          <span class="msg-time">${fmtTime(m.created_at)}</span>
+          <button class="msg-edit-btn" onclick="startEdit(event,'${m.id}')">✎</button>
+          <button class="msg-del" onclick="delMsg(event,'${m.id}')">✕</button>
+        </div>
+        <p class="msg-body">${esc(m.content)}</p>
+      </div>`,
+          )
+          .join("");
+      }
+
+      function updateStats() {
+        document.getElementById("stat-total").textContent = msgs.length;
+        document.getElementById("stat-unread").textContent = msgs.filter(
+          (m) => !m.is_read,
+        ).length;
+      }
+
+      async function toggleRead(id, isRead) {
+        await db.from("messages").update({ is_read: !isRead }).eq("id", id);
+        const m = msgs.find((m) => m.id === id);
+        if (m) m.is_read = !isRead;
+        render();
+        updateStats();
+      }
+
+      async function delMsg(e, id) {
+        e.stopPropagation();
+        if (!confirm("Delete this message?")) return;
+        await db.from("messages").delete().eq("id", id);
+        msgs = msgs.filter((m) => m.id !== id);
+        render();
+        updateStats();
+      }
+
+      function startEdit(e, id) {
+        e.stopPropagation();
+        const msg = msgs.find((m) => m.id === id);
+        if (!msg) return;
+        const el = document.querySelector(`.msg[data-id="${id}"]`);
+        const bodyEl = el.querySelector(".msg-body");
+        bodyEl.outerHTML = `
+          <textarea class="msg-edit-area" id="edit-area-${id}">${esc(msg.content)}</textarea>
+          <div class="msg-edit-actions">
+            <button class="msg-edit-cancel" onclick="cancelEdit(event)">Cancel</button>
+            <button class="msg-edit-save" onclick="saveEdit(event,'${id}')">Save</button>
+          </div>`;
+        el.onclick = (ev) => ev.stopPropagation();
+      }
+
+      function cancelEdit(e) {
+        e.stopPropagation();
+        render();
+      }
+
+      async function saveEdit(e, id) {
+        e.stopPropagation();
+        const textarea = document.getElementById(`edit-area-${id}`);
+        const newContent = textarea.value.trim();
+        if (!newContent) return;
+        if (newContent.length > 500) {
+          alert("الرسالة أطول من 500 حرف");
+          return;
+        }
+        await db.from("messages").update({ content: newContent }).eq("id", id);
+        const msg = msgs.find((m) => m.id === id);
+        if (msg) msg.content = newContent;
+        render();
+      }
+
+      function toggleCompose() {
+        const box = document.getElementById("compose");
+        box.classList.toggle("show");
+        if (box.classList.contains("show")) {
+          document.getElementById("compose-area").value = "";
+          document.getElementById("compose-area").focus();
+        }
+      }
+
+      async function addMsg() {
+        const textarea = document.getElementById("compose-area");
+        const content = textarea.value.trim();
+        if (!content) return;
+        if (content.length > 500) {
+          alert("الرسالة أطول من 500 حرف");
+          return;
+        }
+        const { error } = await db.from("messages").insert({ content });
+        if (error) {
+          alert("فشل الإضافة: " + error.message);
+          return;
+        }
+        toggleCompose();
+        await loadMessages();
+      }
+
+      async function markAllRead() {
+        await db
+          .from("messages")
+          .update({ is_read: true })
+          .eq("is_read", false);
+        msgs.forEach((m) => (m.is_read = true));
+        render();
+        updateStats();
+      }
+
+      function startPolling() {
+        setInterval(async () => {
+          const { data } = await db.from("messages").select("id");
+          if (data && data.length > lastCount) showPing();
+        }, 15000);
+      }
+
+      function showPing() {
+        document.getElementById("ping").classList.add("show");
+      }
+      function hidePing() {
+        document.getElementById("ping").classList.remove("show");
+      }
+
+      function fmtTime(iso) {
+        const d = new Date(iso),
+          now = new Date();
+        const min = Math.floor((now - d) / 60000);
+        if (min < 1) return "Just now";
+        if (min < 60) return `${min}m ago`;
+        if (min < 1440) return `${Math.floor(min / 60)}h ago`;
+        return (
+          d.toLocaleDateString("en-GB", { day: "numeric", month: "short" }) +
+          " · " +
+          d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })
+        );
+      }
+
+      function esc(s) {
+        return s
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+    </script>
+  </body>
+</html>
