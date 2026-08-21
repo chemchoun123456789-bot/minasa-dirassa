@@ -17,6 +17,7 @@
     { "source": "/feedback", "destination": "/pages/feedback.html" },
     { "source": "/guide", "destination": "/pages/guide.html" },
     { "source": "/privacy", "destination": "/pages/privacy.html" }
+    { "source": "/landing-page", "destination": "/pages/landing-page.html" }
   ],
   "headers": [
     {
