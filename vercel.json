@@ -1,0 +1,56 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://mjstmpuqxycbbcjqeyhf.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_JfuV7PitG1JQge6XdZYjWw_E8wpE7pS",
+    "SUPABASE_SERVICE_ROLE_KEY": "sb_secret_4vG3zwpoM_jsdDRxH5jp8A_Dz8f5BLM",
+    "VITE_SUPABASE_URL": "https://mjstmpuqxycbbcjqeyhf.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "sb_publishable_JfuV7PitG1JQge6XdZYjWw_E8wpE7pS",
+    "VITE_GOOGLE_CLIENT_ID": "1065078894672-rmp5kp8vfjns5rn9kp5psfp16g691043.apps.googleusercontent.com",
+    "VITE_GOOGLE_AUTH_PROXY": "https://designarena.ai/auth/google/callback",
+    "FULLSTACK_PROJECT_REF": "mjstmpuqxycbbcjqeyhf",
+    "FULLSTACK_RESTORE_API_URL": "https://designarena.ai/api/fullstack-restore"
+  },
+  "rewrites": [
+    { "source": "/admin", "destination": "/pages/admin.html" },
+    { "source": "/feedback", "destination": "/pages/feedback.html" },
+    { "source": "/guide", "destination": "/pages/guide.html" },
+    { "source": "/privacy", "destination": "/pages/privacy.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.tailwindcss.com cdnjs.cloudflare.com cdn.jsdelivr.net challenges.cloudflare.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://accounts.google.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; img-src 'self' data: https:; font-src 'self' fonts.gstatic.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';"
+        },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "same-origin" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
+}
