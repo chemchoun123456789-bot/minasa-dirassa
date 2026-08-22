@@ -17,8 +17,8 @@
    { "source": "/feedback", "destination": "/pages/feedback.html" },
    { "source": "/guide", "destination": "/pages/guide.html" },
    { "source": "/privacy", "destination": "/pages/privacy.html" },
-   { "source": "/landing-page", "destination": "https://minassa-landing.vercel.app" },
-   { "source": "/landing-page/:path*", "destination": "https://minassa-landing.vercel.app/:path*" }
+   { "source": "/landing-page", "destination": "https://minassa-dirasa-landpage.vercel.app" },
+   { "source": "/landing-page/:path*", "destination": "https://minassa-dirasa-landpage.vercel.app/:path*" }
   ]
   "headers": [
     {
