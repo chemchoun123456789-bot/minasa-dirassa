@@ -1056,15 +1056,6 @@ main {
     "kern" 1,
     "liga" 1;
 }
-.sec-badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 20px;
-  background: rgba(59, 130, 246, 0.1);
-  color: #93c5fd;
-  border: 1px solid rgba(59, 130, 246, 0.2);
-}
 
 #pomoSettings {
   display: none;
