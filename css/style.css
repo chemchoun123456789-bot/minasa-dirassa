@@ -137,10 +137,6 @@
   padding: 0;
 }
 
-html {
-  zoom: 90%;
-}
-
 body {
   font-family: var(--font-body);
   background: #000;
