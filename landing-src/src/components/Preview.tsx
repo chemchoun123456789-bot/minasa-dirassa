@@ -140,7 +140,7 @@ export default function Preview() {
                 >
                   <motion.img
                     ref={imgRef}
-                    src={`${import.meta.env.BASE_URL}screenshots/platform-preview-v3.jpg`}
+                    src={`${import.meta.env.BASE_URL}screenshots/platform-preview.png`}
                     alt="لقطة من داخل منصّة دراسة: الجدول الدراسي، مؤقت بومودورو، والمهام"
                     style={{ y: imgY, willChange: 'transform' }}
                     className="block h-auto w-full select-none"
