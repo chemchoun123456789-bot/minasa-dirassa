@@ -32,17 +32,21 @@ export default function Navbar() {
         }`}
       >
         <a
-          href={PLATFORM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2.5"
+         href={PLATFORM_URL}
+         target="_blank"
+         rel="noopener noreferrer"
+         className="flex items-center gap-2.5"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 sm:h-9 sm:w-9">
-            <GraduationCap className="h-4.5 w-4.5 text-white" strokeWidth={1.5} />
-          </span>
-          <span className="text-base font-semibold tracking-tight sm:text-lg">
-            منصّة <span className="font-light text-smoke">دراسة</span>
-          </span>
+         <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg border border-white/15 sm:h-9 sm:w-9">
+           <img 
+           src="/assets/icon.jpg" 
+           alt="شعار منصة دراسة" 
+           className="h-full w-full object-cover" 
+          />
+         </span>
+         <span className="text-base font-semibold tracking-tight sm:text-lg">
+          منصّة <span className="font-light text-smoke">دراسة</span>
+         </span>
         </a>
 
         <div className="hidden items-center gap-7 md:flex">
